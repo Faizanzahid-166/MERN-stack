@@ -34,7 +34,7 @@ const Slider = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
-    }, 4000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
