@@ -8,7 +8,7 @@ import {createBrowserRouter, createHashRouter} from 'react-router'
 // import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 
-const routers = createHashRouter([
+const routers = createBrowserRouter([
  {
     path: "/",
     element: <App />,

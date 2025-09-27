@@ -83,7 +83,7 @@ const Home = () => {
             autoPlay
             loop
             playsInline
-            controls
+            controls            
           >
             <source src="/video/v_(1).mp4" type="video/mp4" />
             Your browser does not support the video tag.
