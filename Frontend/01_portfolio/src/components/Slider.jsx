@@ -49,7 +49,9 @@ const Slider = () => {
       <img
         src={images[current]}
         alt="slider"
-        className="w-full h-full object-center transition-opacity duration-700 blur-[2px]"
+         loading="lazy"                // ✅ lazy load images
+        decoding="async"              // ✅ hint browser to decode async
+        className="w-full h-full object-cover transition-opacity duration-700 blur-[2px]"
       />
 
       {/* Text Overlay with Animation */}
