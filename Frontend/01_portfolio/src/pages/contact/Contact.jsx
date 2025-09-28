@@ -6,6 +6,7 @@ import { sendContactForm } from "../../api/contactApi.js";
 export default function Contact() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState(null); // ✅ success/error messages
+  const [loading, setLoading] = useState(false); // ✅ show loading while sending
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,13 +15,22 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus(null);
+    setLoading(true);
+
     try {
       const res = await sendContactForm(formData);
-      setStatus({ type: "success", msg: res.msg || "Message sent successfully 🚀" });
-      setFormData({ name: "", email: "", message: "" });
+
+      if (res.success) {
+        setStatus({ type: "success", msg: res.msg || "✅ Message sent successfully 🚀" });
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        setStatus({ type: "error", msg: res.msg || "❌ Failed to send message" });
+      }
     } catch (err) {
-      setStatus({ type: "error", msg: "❌ Error sending message. Try again later." });
-      console.error(err);
+      setStatus({ type: "error", msg: "❌ Server error. Please try again later." });
+      console.error("Contact form error (frontend):", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,7 +40,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-scree p-6 md:p-12 flex flex-col items-center">
+    <div className="min-h-screen p-6 md:p-12 flex flex-col items-center">
       <h2 className="text-3xl font-bold mb-6">📬 Contact Me</h2>
 
       {/* Contact Form */}
@@ -70,9 +80,10 @@ export default function Contact() {
         <div className="flex gap-4">
           <button
             type="submit"
-            className="flex-1 bg-blue-600 hover:bg-blue-700 p-3 rounded-lg transition"
+            disabled={loading}
+            className="flex-1 bg-blue-600 hover:bg-blue-700 p-3 rounded-lg transition disabled:opacity-50"
           >
-            Send Message
+            {loading ? "Sending..." : "Send Message"}
           </button>
           <button
             type="button"
