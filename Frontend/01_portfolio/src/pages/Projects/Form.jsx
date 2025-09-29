@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { createProject } from "../../api/addprojectApi.js";
 
 export default function Form() {
@@ -10,20 +10,6 @@ export default function Form() {
     projectlink: "",
     category: ""
   });
-  const [token, setToken] = useState(null);
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    setToken(storedToken);
-  }, []);
-
-  if (!token) {
-    return (
-      <div className="text-center mt-10 text-red-600">
-        ❌ Access Denied. Please login as admin.
-      </div>
-    );
-  }
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,7 +18,7 @@ export default function Form() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createProject(formData, token);
+      await createProject(formData); // ✅ removed token
       alert("✅ Project added!");
       setFormData({
         title: "",
