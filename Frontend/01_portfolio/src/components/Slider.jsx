@@ -9,22 +9,22 @@ import "./Slider.css";
 // ✅ Put optimized .webp images in public/slider/
 const slides = [
   {
-    img: "/slider/bg_(1).jpg",
+    img: "/slider/bg_(1).webp",
     title: "Modern Web Development",
     subtitle: "Build responsive and dynamic websites with React & Tailwind CSS",
   },
   {
-    img: "/slider/bg_(2).jpg",
+    img: "/slider/bg_(2).webp",
     title: "Clean & Fast UI",
     subtitle: "Design beautiful user interfaces with modern frameworks",
   },
   {
-    img: "/slider/bg_(3).jpg",
+    img: "/slider/bg_(3).webp",
     title: "Powerful Frontend Skills",
     subtitle: "Learn JavaScript, React, and Tailwind to create amazing apps",
   },
   {
-    img: "/slider/bg_(4).jpg",
+    img: "/slider/bg_(4).webp",
     title: "Bring Ideas to Life",
     subtitle: "Turn your designs into functional and interactive websites",
   },
