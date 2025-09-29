@@ -6,7 +6,6 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "./Slider.css";
 
-// ✅ Put optimized .webp images in public/slider/
 const slides = [
   {
     img: "/slider/bg_(1).webp",
@@ -38,21 +37,23 @@ const Slider = () => {
         navigation
         pagination={{ clickable: true }}
         autoplay={{ delay: 2000, disableOnInteraction: false }}
-         fadeEffect={{ crossFade: true }}   // ✅ ensures one slide is hidden before next shows
         effect="fade"
+        fadeEffect={{ crossFade: true }} // ✅ fix text overlap
         loop
         className="w-full h-full"
       >
         {slides.map((slide, idx) => (
           <SwiperSlide key={idx}>
-            {/* Background Image */}
-            <img
-              src={slide.img}
-              alt={slide.title}
-              loading="lazy"
-              decoding="async"
-              className="w-full h-full object-cover blur-xs"
-            />
+            <div className="w-full h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+              <img
+                src={slide.img}
+                alt={slide.title}
+                loading="lazy"
+                decoding="async"
+                onError={(e) => (e.currentTarget.style.display = "none")} // ✅ hide broken img
+                className="w-full h-full object-cover"
+              />
+            </div>
 
             {/* Overlay Text */}
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center bg-black/30 text-white px-4">
