@@ -38,6 +38,7 @@ const Slider = () => {
         navigation
         pagination={{ clickable: true }}
         autoplay={{ delay: 2000, disableOnInteraction: false }}
+         fadeEffect={{ crossFade: true }}   // ✅ ensures one slide is hidden before next shows
         effect="fade"
         loop
         className="w-full h-full"
