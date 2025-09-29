@@ -62,13 +62,13 @@ const Home = () => {
               🚀 View My Projects
             </Link>
             <Link
-              href="/about"
+              to="/about"
               className="px-6 py-3 bg-purple-600 text-white rounded-xl shadow-md hover:bg-purple-700 transition"
             >
               👨‍💻 About Me
             </Link>
             <Link
-              href="/contact"
+              to="/contact"
               className="px-6 py-3 bg-green-600 text-white rounded-xl shadow-md hover:bg-green-700 transition"
             >
               ✉️ Contact
