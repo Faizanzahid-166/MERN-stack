@@ -44,7 +44,7 @@ const Slider = () => {
       >
         {slides.map((slide, idx) => (
           <SwiperSlide key={idx}>
-            <div className="w-full h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+            <div className="w-full h-full bg-gradient-to-r from-indigo-500 via-indigo-700">
               <img
                 src={slide.img}
                 alt={slide.title}
