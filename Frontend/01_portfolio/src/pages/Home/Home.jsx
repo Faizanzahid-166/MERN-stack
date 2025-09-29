@@ -56,7 +56,7 @@ const Home = () => {
           {/* CTA Buttons */}
           <div className="flex flex-wrap gap-4 justify-center md:justify-start mt-4">
             <Link
-              to="/projects/gitprojects"
+              to="/projects/githubmoro"
               className="px-6 py-3 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 transition"
             >
               🚀 View My Projects
