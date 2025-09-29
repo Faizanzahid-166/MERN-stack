@@ -1,12 +1,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
+import { Navigation, Pagination, Autoplay, EffectFade, Lazy } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
+import "swiper/css/lazy"; // ✅ required for lazy loading
 import "./Slider.css";
 
-// ✅ Put optimized .webp images in public/slider/
 const slides = [
   {
     img: "/slider/bg_(1).webp",
@@ -34,32 +34,35 @@ const Slider = () => {
   return (
     <div className="relative w-full h-56 md:h-72 lg:h-96 rounded-2xl shadow-lg border border-gray-700 overflow-hidden">
       <Swiper
-  modules={[Navigation, Pagination, Autoplay, EffectFade]}
-  navigation
-  pagination={{ clickable: true }}
-  autoplay={{ delay: 2000, disableOnInteraction: false }}
-  effect="fade"
-  loop
-  preloadImages={false}
-  lazy={true}
-  className="w-full h-full"
->
-  {slides.map((slide, idx) => (
-    <SwiperSlide key={idx}>
-      <img
-        data-src={slide.img}
-        alt={slide.title}
-        className="swiper-lazy w-full h-full object-cover"
-      />
-      <div className="swiper-lazy-preloader"></div>
-      <div className="absolute inset-0 flex flex-col justify-center items-center text-center bg-black/30 text-white px-4">
-        <h2 className="text-xl md:text-3xl font-bold drop-shadow-lg">{slide.title}</h2>
-        <p className="mt-2 text-sm md:text-lg drop-shadow-md">{slide.subtitle}</p>
-      </div>
-    </SwiperSlide>
-  ))}
-</Swiper>
-
+        modules={[Navigation, Pagination, Autoplay, EffectFade, Lazy]} // ✅ added Lazy
+        navigation
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 2000, disableOnInteraction: false }}
+        effect="fade"
+        loop
+        preloadImages={false}
+        lazy={true}
+        className="w-full h-full"
+      >
+        {slides.map((slide, idx) => (
+          <SwiperSlide key={idx}>
+            <img
+              data-src={slide.img}
+              alt={slide.title}
+              className="swiper-lazy w-full h-full object-cover"
+            />
+            <div className="swiper-lazy-preloader"></div>
+            <div className="absolute inset-0 flex flex-col justify-center items-center text-center bg-black/30 text-white px-4">
+              <h2 className="text-xl md:text-3xl font-bold drop-shadow-lg">
+                {slide.title}
+              </h2>
+              <p className="mt-2 text-sm md:text-lg drop-shadow-md">
+                {slide.subtitle}
+              </p>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 };
