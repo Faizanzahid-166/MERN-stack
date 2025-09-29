@@ -50,7 +50,7 @@ const Slider = () => {
               alt={slide.title}
               loading="lazy"
               decoding="async"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover blur-xs"
             />
 
             {/* Overlay Text */}
