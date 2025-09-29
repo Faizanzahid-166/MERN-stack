@@ -9,7 +9,7 @@ export default function ProjectsLayout() {
   return (
     <section className="max-w-5xl mx-auto px-6 py-10">
 
-        <ul className="hidden md:flex gap-6">
+        <ul className="flex flex-col md:flex-row gap-4 md:gap-6">
         {navLinks.map((link) => (
           <li key={link.name}>
             <Link to={link.path} className="hover:text-red-500 cursor-pointer">
