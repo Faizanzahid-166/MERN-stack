@@ -161,7 +161,7 @@ export default function GitHubMoro() {
                 className={`px-4 py-2 rounded-md border transition ${
                   currentPage === 1
                     ? "bg-white text-black cursor-not-allowed"
-                    : "bg-black hover:bg-green-500 border-blue-500"
+                    : " hover:bg-green-500 border-blue-500"
                 }`}
               >
                 Previous
@@ -177,7 +177,7 @@ export default function GitHubMoro() {
                 className={`px-4 py-2 rounded-md border transition ${
                   currentPage === totalPages
                     ? "bg-white text-black cursor-not-allowed"
-                    : "bg-black hover:bg-blue-800 border-green-500"
+                    : " hover:bg-blue-800 border-green-500"
                 }`}
               >
                 Next
