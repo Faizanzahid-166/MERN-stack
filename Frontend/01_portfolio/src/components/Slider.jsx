@@ -37,7 +37,7 @@ const Slider = () => {
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         navigation
         pagination={{ clickable: true }}
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        autoplay={{ delay: 2000, disableOnInteraction: false }}
         effect="fade"
         loop
         className="w-full h-full"
