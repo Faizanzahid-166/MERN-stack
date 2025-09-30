@@ -27,7 +27,7 @@ const Footer = () => {
             <span className="text-sm mt-1">LinkedIn</span>
           </Link>
           <Link
-            to="https://www.youtube.com/@entertainmenthub378/featured"
+            to="https://www.youtube.com/@ProgrammingHub-7107/playlists"
             target="_blank"
             className="hover:text-red-500 flex flex-col items-center"
           >
@@ -39,12 +39,12 @@ const Footer = () => {
         {/* Email */}
         <div className="text-center text-sm md:text-base">
           Email:{" "}
-          <a
-            href="mailto:faizanzahid166@gmail.com"
+          <Link
+            to="mailto:faizanzahid166@gmail.com"
             className="underline hover:text-blue-400"
           >
             faizanzahid166@gmail.com
-          </a>
+          </Link>
         </div>
 
         {/* Report Issue Button */}
