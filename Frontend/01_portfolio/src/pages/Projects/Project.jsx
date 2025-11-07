@@ -18,21 +18,21 @@ export default function ProjectWelcomePage() {
 
       <div className="flex flex-wrap gap-4 mt-10">
         <Link
-          to="/react-projects"
+          to="/projects/repomanager"
           className="px-6 py-3 bg-yellow-400 text-black rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
         >
-          React Projects
+          My Projects
         </Link>
 
         <Link
-          to="/web-apps"
+          to="/projects/githubrepo"
           className="px-6 py-3 bg-white text-gray-900 rounded-full font-semibold hover:bg-gray-200 transition shadow-md"
         >
-          Web Apps
+          Git hub Repo
         </Link>
 
         <Link
-          to="/company-projects"
+          to="/projects/githubmoro"
           className="px-6 py-3 bg-indigo-900 text-white rounded-full font-semibold hover:bg-indigo-800 transition shadow-md"
         >
           Company Work
