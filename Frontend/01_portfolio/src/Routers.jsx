@@ -1,7 +1,7 @@
 import App from './App.jsx'
 
  import {NotFound, Home, About, 
-         RepoManager,Form,Projectlayout,GitHubRepo,GitHubMoro,
+         RepoManager,Form,Projectlayout,GitHubRepo,GitHubMoro,ForProjectWelcomePagem,
          Docs, Frontend, Backend, Database, Github, Contact} from './pages/00_index.js'
 
 import {createBrowserRouter, createHashRouter} from 'react-router'
@@ -24,7 +24,7 @@ const routers = createBrowserRouter([
 
        // pages /nested routes add, display and catch
        { path: "/projects", element: <Projectlayout />,  children: [
-            { index: true, element: <RepoManager /> },
+            { index: true, element: <ForProjectWelcomePagem /> },
             { path: "/projects/repomanager", element: <RepoManager /> },
             { path: "/projects/form", element: <Form /> },
             { path: "/projects/githubrepo", element: <GitHubRepo /> },

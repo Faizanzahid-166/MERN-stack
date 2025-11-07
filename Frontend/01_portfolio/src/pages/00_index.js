@@ -8,6 +8,7 @@ import GitHubRepo from './Projects/GitHubRepo.jsx'
 import GitHubMoro from './Projects/GitHubMoro.jsx'
 import RepoManager from './Projects/RepoManager.jsx'
 import Form from './Projects/Form.jsx'
+import ForProjectWelcomePagem from './Projects/Project.jsx'
 
 import Docs from './Docs/Docs.jsx'
 import Frontend from './Docs/Frontend.jsx'
@@ -23,7 +24,7 @@ export {
     Home,
     About,
     
-    RepoManager,Form,Projectlayout,GitHubRepo,GitHubMoro,
+    RepoManager,Form,Projectlayout,GitHubRepo,GitHubMoro,ForProjectWelcomePagem,
     
     Docs,Frontend,Backend,Database,Github,
     Contact
