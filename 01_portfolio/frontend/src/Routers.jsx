@@ -1,7 +1,7 @@
 import App from './App.jsx'
 
  import {NotFound, Home, About, 
-         Projectlayout,RepositoryLists,RepositoryProjects,ProjectPage,InsertProjects,
+         Projectlayout,RepositoryLists,RepositoryProjects,ProjectPage,InsertProjects,InsertRepository,
          Docs, Frontend, Backend, Database, Github, Contact,
          Login,Signup,Dashboard
         
@@ -30,7 +30,8 @@ const routers = createBrowserRouter([
             { index: true, element: <ProjectPage /> },
             { path: "/projects/repositoryLists", element: <RepositoryLists /> },
             { path: "/projects/repositoryProjects", element: <RepositoryProjects /> },
-            { path: "/projects/insertProjects", element: <InsertProjects /> }
+            { path: "/projects/insertProjects", element: <InsertProjects /> },
+             { path: "/projects/insertRepository", element: <InsertRepository /> }
        ]
        },
    

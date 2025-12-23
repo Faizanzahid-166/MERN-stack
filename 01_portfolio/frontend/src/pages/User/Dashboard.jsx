@@ -30,6 +30,12 @@ const Dashboard = () => {
         >
           InsertProjects
         </Link>
+         <Link
+          to="/projects/insertRepository"
+          className="px-6 py-2 m-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        >
+          InsertRepository
+        </Link>
         <button
           onClick={handleLogout}
           className="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"

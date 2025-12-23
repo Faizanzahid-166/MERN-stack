@@ -33,7 +33,6 @@ server.use(cookieParser())
 import contactRoutes from "./routes/contact.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import repo_projects from './routes/repo_projects.routes.js'
-// import { protectRoute } from "./middleware/authMiddleware.js";
 
 // ✅ Routes
 

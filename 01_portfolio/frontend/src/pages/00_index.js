@@ -8,6 +8,7 @@ import ProjectPage from './Projects/ProjectPage.jsx'
 import RepositoryLists from './Projects/RepositoryLists.jsx'
 import RepositoryProjects from './Projects/RepositoryProjects.jsx'
 import InsertProjects from './Projects/InsertProjects.jsx'
+import InsertRepository from './Projects/InsertRepository.jsx'
 
 import Docs from './Docs/Docs.jsx'
 import Frontend from './Docs/Frontend.jsx'
@@ -27,7 +28,7 @@ export {
     Home,
     About,
     
-    Projectlayout,ProjectPage,RepositoryLists,RepositoryProjects,InsertProjects,
+    Projectlayout,ProjectPage,RepositoryLists,RepositoryProjects,InsertProjects,InsertRepository,
     
     Docs,Frontend,Backend,Database,Github,
     Contact,
