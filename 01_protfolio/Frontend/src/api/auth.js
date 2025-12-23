@@ -33,6 +33,8 @@ export const logout = async () => {
   return res.data;
 };
 
+
+
 /**
  * Get current logged-in user
  */
