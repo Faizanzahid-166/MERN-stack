@@ -2,9 +2,8 @@ import { Outlet, Link } from "react-router"; // make sure it's react-router-dom
 
 export default function ProjectsLayout() {
   const navLinks = [
-    { name: "More Projects", path: "/projects/repomanager" },
-    { name: "Git Hub Repo", path: "/projects/repositoryLists" },
-    { name: "Git Projects", path: "/projects/repositoryProjects" },
+    { name: "GitHub Repository Lists", path: "/projects/repositoryLists" },
+    { name: "GitHub Repository Projects", path: "/projects/repositoryProjects" },
   ];
 
   return (
