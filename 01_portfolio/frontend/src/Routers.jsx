@@ -3,7 +3,8 @@ import App from './App.jsx'
  import {NotFound, Home, About, 
          Projectlayout,RepositoryLists,RepositoryProjects,ProjectPage,InsertProjects,InsertRepository,
          Docs, Frontend, Backend, Database, Github, Contact,
-         Login,Signup,Dashboard
+         Login,Signup,Dashboard,
+         VsCodeLayout,CodeEditorPage,HTMLPlayground,JavaScript,SQLEditor,PHPEditor
         
         } from './pages/00_index.js'
 
@@ -51,6 +52,18 @@ const routers = createBrowserRouter([
        { path: "/auth/login", element: <Login /> },
        { path: "/auth/signup", element: <Signup /> },
         { path: "/auth/dashboard", element: <Dashboard /> },
+
+        // vscode
+         { path: "/codeEditor", element: <VsCodeLayout />,  children: [
+            { index: true, element: <CodeEditorPage /> },
+            { path: "/codeEditor/html", element: <HTMLPlayground /> },
+            { path: "/codeEditor/javascript", element: <JavaScript /> },
+            { path: "/codeEditor/SQLEditor", element: <SQLEditor /> },
+            { path: "/codeEditor/PHPEditor", element: <PHPEditor /> },
+            //   { path: "/codeEditor/javascript", element: <JavaScript /> },
+            //    { path: "/codeEditor/javascript", element: <JavaScript /> },
+       ]
+       },
 
 
     ],

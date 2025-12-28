@@ -22,6 +22,12 @@ import Login from './User/Login.jsx'
 import Signup from './User/Signup.jsx'
 import Dashboard from './User/Dashboard.jsx'
 
+import VsCodeLayout from './Code_editor/VsCodeLayout.jsx'
+import CodeEditorPage from './Code_editor/CodeEditorPage.jsx'
+import JavaScript from './Code_editor/JavaScript.jsx'
+import HTMLPlayground from './Code_editor/HTML.jsx'
+import SQLEditor from './Code_editor/SQLEditor.jsx'
+import PHPEditor from './Code_editor/PHPEditor.jsx'
 
 export {
     NotFound,
@@ -32,5 +38,7 @@ export {
     
     Docs,Frontend,Backend,Database,Github,
     Contact,
-    Login,Signup,Dashboard
+    Login,Signup,Dashboard,
+
+    VsCodeLayout,CodeEditorPage,HTMLPlayground,JavaScript,SQLEditor,PHPEditor
 }

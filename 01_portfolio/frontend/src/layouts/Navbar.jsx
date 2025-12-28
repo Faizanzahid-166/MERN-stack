@@ -37,6 +37,7 @@ useEffect(() => {
     { name: "Projects", path: "/projects" },
     { name: "Docs", path: "/docs" },
     { name: "Contact", path: "/contact" },
+    { name: "Code Tool", path: "/codeEditor" },
     { name: "Error", path: "/error" },
   ];
 
@@ -51,7 +52,7 @@ useEffect(() => {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="md:hidden p-2 rounded hover:bg-gray-800 dark:hover:bg-gray-700"
+            className="md:hidden p-1 rounded hover:bg-gray-800 dark:hover:bg-gray-700"
           >
             <MenuIcon size={22} />
           </button>
@@ -71,7 +72,7 @@ useEffect(() => {
             <li key={link.name}>
               <Link
                 to={link.path}
-                className="hover:text-red-500 cursor-pointer"
+                className="hover:bg-red-500 cursor-pointer p-2 rounded-2xl font-bold transition-all duration-105"
               >
                 {link.name}
               </Link>
