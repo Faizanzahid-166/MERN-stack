@@ -5,6 +5,8 @@ import ThemeContext from "../../context/themeContext.js";
 export default function About() {
   const { darkMode } = useContext(ThemeContext);
 
+
+  
   return (
     <section
       className={`max-w-5xl mx-auto px-6 py-16 transition-colors duration-500 ${
