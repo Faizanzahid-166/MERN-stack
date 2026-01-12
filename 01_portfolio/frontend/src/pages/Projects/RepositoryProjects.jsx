@@ -55,9 +55,16 @@ export default function RepositoryTabs() {
 
   if (loading)
     return (
-      <p className="text-center py-20 text-gray-500 animate-pulse">
-        Loading...
-      </p>
+      <div className="flex justify-center items-center py-20 space-x-1">
+  {[1,2,3,4,5].map((i) => (
+    <span
+      key={i}
+      className="w-1 h-8 bg-cyan-500 animate-pulse"
+      style={{ animationDelay: `${i * 0.1}s` }}
+    />
+  ))}
+</div>
+
     );
 
   if (error)
