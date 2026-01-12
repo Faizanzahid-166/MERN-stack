@@ -1,67 +1,32 @@
 import express from "express";
-import multer from "multer";
-import ffmpeg from "fluent-ffmpeg";
-import ffmpegPath from "ffmpeg-static";
 import cors from "cors";
-import fs  from "fs";
-import  path from "path";
-import  generateTTS  from "./script/ai.js";
 
 const server = express();
-ffmpeg.setFfmpegPath(ffmpegPath);
-server.use(cors());
-server.use(express.json());
 
-const upload = multer({ dest: "uploads/" });
+// 🔑 split env string into array
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : [];
 
-// Endpoint to upload video
-server.post("/api/upload", upload.single("video"), async (req, res) => {
-  try {
-    const videoPath = req.file.path;
-    const { script } = req.body; // text you want AI voice to read
 
-    if (!script) return res.status(400).json({ error: "Please provide a script!" });
-
-    // 1️⃣ Generate AI voice
-    const ttsPath = `uploads/${Date.now()}_voice.mp3`;
-    await generateTTS(script, ttsPath);
-
-    // 2️⃣ Merge voice + optional music into video
-    const outputPath = `processed/${Date.now()}_video.mp4`;
-
-    // If you want background music, place it in backend folder
-    const bgMusicPath = "background_music.mp3"; // optional
-
-    const command = ffmpeg(videoPath)
-      .input(ttsPath);
-
-    if (fs.existsSync(bgMusicPath)) {
-      command.input(bgMusicPath);
-      command.complexFilter([
-        "[1:a][2:a]amix=inputs=2:duration=shortest[a]"
-      ]).outputOptions(["-map 0:v", "-map [a]"]);
+server.use(cors({
+    origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl) or matching origins
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
     } else {
-      command.outputOptions(["-map 0:v", "-map 1:a"]);
+      callback(new Error('Not allowed by CORS'));
     }
+  },
+    credentials: true,
+     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+     allowedHeaders: ['Content-Type', 'Authorization'],
+}))
+server.use(express.urlencoded({extended:true, limit:"16kb"}))
+server.use(express.static("public"))
+//app.use("/uploads", express.static("uploads"));
 
-    command
-      .on("end", () => {
-        // cleanup temp files
-        fs.unlinkSync(videoPath);
-        fs.unlinkSync(ttsPath);
-        res.json({ url: `/${outputPath}` });
-      })
-      .on("error", (err) => {
-        console.error(err);
-        res.status(500).json({ error: "Video processing failed" });
-      })
-      .save(outputPath);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
-  }
-});
+import videoRoutes from "./routes/videoRoutes.js";
+ server.use("/api/videos", videoRoutes);
 
-server.use("/processed", express.static("processed"));
-
-export {server};
+export default server;
