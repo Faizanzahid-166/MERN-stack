@@ -2,58 +2,50 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle, Loader2, Clock, MessageSquare } from 'lucide-react';
 import PageWrapper from '../components/PageWrapper';
-
-const API_BASE = import.meta.env.VITE_API_URL || '/api';
+import { sendContactForm } from "../api/contactApi.js";
 
 const contactInfo = [
-  { icon: Mail,    label: 'Email',    value: 'hello@blitztechhub.com', href: 'mailto:hello@blitztechhub.com' },
-  { icon: Phone,   label: 'Phone',    value: '+92 300 000 0000',       href: 'tel:+923000000000' },
+  { icon: Mail,    label: 'Email',    value: 'faizanzahid166@gmail.com',  }, //href: 'mailto:hello@blitztechhub.com'
+  { icon: Phone,   label: 'Phone',    value: '+92 3495526117',       }, //href: 'tel:+923495526117' 
   { icon: MapPin,  label: 'Location', value: 'Islamabad, Pakistan',    href: '#' },
   { icon: Clock,   label: 'Hours',    value: 'Mon–Sat, 9 AM – 7 PM',  href: '#' },
 ];
 
-const initialForm = { name: '', email: '', message: '' };
-
 export default function Contact() {
-  const [form,     setForm]    = useState(initialForm);
-  const [status,   setStatus]  = useState('idle'); // idle | loading | success | error
-  const [errorMsg, setErrorMsg] = useState('');
+   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState(null); // ✅ success/error messages
+  const [loading, setLoading] = useState(false); // ✅ show loading while sending
 
-  const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('loading');
-    setErrorMsg('');
-
-    // Basic client-side validation
-    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
-      setStatus('error');
-      setErrorMsg('Please fill in all fields before submitting.');
-      return;
-    }
-
-    try {
-      const res = await fetch(`${API_BASE}/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.errors?.join(', ') || data.message || 'Something went wrong');
+    const handleChange = (e) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setStatus(null);
+      setLoading(true);
+  
+      try {
+        const res = await sendContactForm(formData);
+  
+        if (res.success) {
+          setStatus({ type: "success", msg: res.msg || "✅ Message sent successfully 🚀" });
+          setFormData({ name: "", email: "", message: "" });
+        } else {
+          setStatus({ type: "error", msg: res.msg || "❌ Failed to send message" });
+        }
+      } catch (err) {
+        setStatus({ type: "error", msg: "❌ Server error. Please try again later." });
+        console.error("Contact form error (frontend):", err);
+      } finally {
+        setLoading(false);
       }
-
-      setStatus('success');
-      setForm(initialForm);
-    } catch (err) {
-      setStatus('error');
-      setErrorMsg(err.message || 'Failed to send message. Please try again.');
-    }
-  };
+    };
+  
+    const handleReset = () => {
+      setFormData({ name: "", email: "", message: "" });
+      setStatus(null);
+    };
 
   return (
     <PageWrapper>
@@ -112,7 +104,7 @@ export default function Contact() {
               </div>
 
               {/* Success state */}
-              {status === 'success' && (
+              {status?.type === 'success' && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -124,7 +116,7 @@ export default function Contact() {
                     Thanks for reaching out. We'll be in touch within 24 hours.
                   </p>
                   <button
-                    onClick={() => setStatus('idle')}
+                    onClick={handleReset}
                     className="mt-4 text-sm text-primary hover:underline"
                   >
                     Send another message
@@ -133,19 +125,19 @@ export default function Contact() {
               )}
 
               {/* Error state */}
-              {status === 'error' && (
+              {status?.type === 'error' && (
                 <motion.div
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-5 flex items-start gap-3"
                 >
                   <AlertCircle size={18} className="text-red-400 shrink-0 mt-0.5" />
-                  <p className="text-red-300 text-sm">{errorMsg}</p>
+                  <p className="text-red-300 text-sm">{status.msg}</p>
                 </motion.div>
               )}
 
               {/* Form */}
-              {status !== 'success' && (
+              {status?.type !== 'success' && (
                 <form onSubmit={handleSubmit} noValidate className="space-y-5">
                   {/* Name */}
                   <div>
@@ -156,7 +148,7 @@ export default function Contact() {
                       type="text"
                       id="name"
                       name="name"
-                      value={form.name}
+                      value={formData.name}
                       onChange={handleChange}
                       placeholder="John Doe"
                       required
@@ -174,7 +166,7 @@ export default function Contact() {
                       type="email"
                       id="email"
                       name="email"
-                      value={form.email}
+                      value={formData.email}
                       onChange={handleChange}
                       placeholder="john@example.com"
                       required
@@ -191,7 +183,7 @@ export default function Contact() {
                     <textarea
                       id="message"
                       name="message"
-                      value={form.message}
+                      value={formData.message}
                       onChange={handleChange}
                       placeholder="Tell us about your project, budget, and timeline…"
                       required
@@ -203,22 +195,32 @@ export default function Contact() {
                   </div>
 
                   {/* Submit */}
-                  <button
-                    type="submit"
-                    disabled={status === 'loading'}
-                    className="btn-primary w-full justify-center py-4 text-base disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    {status === 'loading' ? (
-                      <>
-                        <Loader2 size={18} className="animate-spin" />
-                        Sending…
-                      </>
-                    ) : (
-                      <>
-                        Send Message <Send size={16} />
-                      </>
-                    )}
-                  </button>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="btn-primary flex-1 justify-center py-4 text-base disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {loading ? (
+                        <>
+                          <Loader2 size={18} className="animate-spin" />
+                          Sending…
+                        </>
+                      ) : (
+                        <>
+                          Send Message <Send size={16} />
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleReset}
+                      disabled={loading}
+                      className="px-8 py-4 rounded-xl border border-[#1E1E3A] text-gray-400 hover:border-primary/40 hover:text-white transition-all text-base disabled:opacity-50"
+                    >
+                      Reset
+                    </button>
+                  </div>
 
                   <p className="text-gray-600 text-xs text-center">
                     By submitting, you agree to our privacy policy. We never share your data.

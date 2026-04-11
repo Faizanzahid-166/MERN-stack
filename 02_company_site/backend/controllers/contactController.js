@@ -1,44 +1,61 @@
-const { validationResult } = require('express-validator');
-const Contact = require('../models/Contact');
-
 // @desc    Submit a contact message
 // @route   POST /api/contact
 // @access  Public
-const submitContact = async (req, res, next) => {
+import { Resend } from "resend";
+
+// Initialize lazily (SAFE)
+let resend = null;
+
+if (process.env.RESEND_API_KEY) {
+  resend = new Resend(process.env.RESEND_API_KEY);
+  console.log(process.env.RESEND_API_KEY)
+} else {
+  console.warn("⚠️ RESEND_API_KEY not set. Email sending disabled.");
+}
+
+export const contactForm = async (req, res) => {
   try {
-    // Validate input
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+    const { name, email, message } = req.body;
+
+    if (!name || !email || !message) {
       return res.status(400).json({
         success: false,
-        errors: errors.array().map((e) => e.msg),
+        msg: "⚠️ All fields are required",
       });
     }
 
-    const { name, email, message } = req.body;
+    // 🔐 Prevent crash if key missing
+    if (!resend) {
+      return res.status(503).json({
+        success: false,
+        msg: "Email service unavailable (missing API key)",
+      });
+    }
 
-    const contact = await Contact.create({ name, email, message });
-
-    res.status(201).json({
-      success: true,
-      message: 'Your message has been received. We\'ll get back to you shortly!',
-      data: { id: contact._id },
+    const response = await resend.emails.send({
+      from: "Portfolio Contact <onboarding@resend.dev>",
+      to: process.env.CONTACT_RECEIVER,
+      subject: `📩 New Contact Form Submission from ${name}`,
+      html: `
+        <h3>New Contact Message</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+      `,
     });
-  } catch (error) {
-    next(error);
+
+    return res.status(200).json({
+      success: true,
+      msg: "✅ Message sent successfully!",
+      response,
+    });
+  } catch (err) {
+    console.error("❌ Contact form error:", err);
+    return res.status(500).json({
+      success: false,
+      msg: "Something went wrong.",
+      error: err.message,
+    });
   }
 };
-
-// @desc    Get all contact submissions (admin use)
-// @route   GET /api/contact
-// @access  Private (admin)
-const getContacts = async (req, res, next) => {
-  try {
-    const contacts = await Contact.find().sort({ createdAt: -1 });
-    res.json({ success: true, count: contacts.length, data: contacts });
-  } catch (error) {
-    next(error);
-  }
-};
-
-module.exports = { submitContact, getContacts };

@@ -5,7 +5,7 @@ let resend = null;
 
 if (process.env.RESEND_API_KEY) {
   resend = new Resend(process.env.RESEND_API_KEY);
-  //console.log(process.env.RESEND_API_KEY)
+  console.log(process.env.RESEND_API_KEY)
 } else {
   console.warn("⚠️ RESEND_API_KEY not set. Email sending disabled.");
 }

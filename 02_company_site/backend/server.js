@@ -1,11 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const connectDB = require('./config/db');
-const errorHandler = require('./middleware/errorHandler');
+import './config/dotenv.js';
+import express from "express";
+import cors from'cors';
+import {connectDB} from './database/db.js';
+import errorHandler from './middleware/errorHandler.js';
 
-// Load environment variables
-dotenv.config();
+
 
 // Connect to MongoDB
 connectDB();
@@ -21,8 +20,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
-app.use('/api/contact', require('./routes/contactRoutes'));
-app.use('/api/jobs',    require('./routes/jobRoutes'));
+import contactRoutes from './routes/contactRoutes.js';
+// import jobRoutes from './routes/jobRoutes.js';
+
+// Use routes 
+app.use('/api/contacts', contactRoutes);
+// app.use('/api/jobs', jobRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

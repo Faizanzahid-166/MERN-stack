@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Zap, Mail, Phone, MapPin, Twitter, Linkedin, Github, Instagram } from 'lucide-react';
+import { Zap, Mail, Phone, MapPin, Twitter, Linkedin, Github, Instagram, Facebook, Youtube, Globe } from 'lucide-react';
 
 const footerLinks = {
   Company:  [
@@ -20,10 +20,11 @@ const footerLinks = {
 };
 
 const socials = [
-  { icon: Twitter,   href: '#', label: 'Twitter' },
-  { icon: Linkedin,  href: '#', label: 'LinkedIn' },
-  { icon: Github,    href: '#', label: 'GitHub' },
-  { icon: Instagram, href: '#', label: 'Instagram' },
+  { icon: Twitter,   href: 'https://x.com/BlitzTechHub', label: 'Twitter' },
+  { icon: Linkedin,  href: 'https://www.linkedin.com/in/faizan-zahid-9671942a6/', label: 'LinkedIn' },
+  { icon: Github,    href: 'https://github.com/Faizanzahid-166', label: 'GitHub' },
+  { icon: Facebook,  href: 'https://www.facebook.com/BltitzProgrammingHub', label: 'Facebook' },
+  { icon: Youtube,  href: 'https://www.youtube.com/@ProgrammingHub-7107/playlists', label: 'YouTube' },
 ];
 
 export default function Footer() {
@@ -89,11 +90,11 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-sm text-gray-400">
                 <Mail size={15} className="mt-0.5 text-primary shrink-0" />
-                <span>hello@blitztechhub.com</span>
+                <span>faizanzahid150@gmail.com</span>
               </li>
               <li className="flex items-start gap-2 text-sm text-gray-400">
                 <Phone size={15} className="mt-0.5 text-primary shrink-0" />
-                <span>+92 300 000 0000</span>
+                <span>+92 3495526117</span>
               </li>
               <li className="flex items-start gap-2 text-sm text-gray-400">
                 <MapPin size={15} className="mt-0.5 text-primary shrink-0" />
@@ -108,9 +109,13 @@ export default function Footer() {
           <p className="text-gray-500 text-sm">
             © {new Date().getFullYear()} Blitz Tech Hub. All rights reserved.
           </p>
+          <p className="text-gray-600 text-xs flex items-start gap-2">
+           <Globe  size={15} /> <Link to="https://marked-guts.blitz-box.site/" target='_blank'>Our Personal Portfolio</Link>
+          </p>
           <p className="text-gray-600 text-xs">
             Built with ⚡ by the Blitz Tech Hub team
           </p>
+          
         </div>
       </div>
     </footer>

@@ -4,7 +4,6 @@ import { MapPin, Clock, Briefcase, ArrowRight, Loader2, AlertCircle } from 'luci
 import PageWrapper from '../components/PageWrapper';
 import SectionHeading from '../components/SectionHeading';
 
-const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 // Department colour mapping
 const deptColors = {
@@ -125,13 +124,15 @@ export default function Career() {
         {/* Error state */}
         {error && !loading && (
           <div className="glass-card p-8 text-center">
-            <AlertCircle size={36} className="text-red-400 mx-auto mb-3" />
-            <p className="text-gray-400 mb-2">Couldn't load job listings right now.</p>
-            <p className="text-gray-500 text-sm">{error}</p>
-            <p className="text-gray-500 text-sm mt-2">
+            {/* <AlertCircle size={36} className="text-red-400 mx-auto mb-3" /> */}
+            <p className="text-gray-400 mb-2">send your CV speculatively at 
+              <a href="mailto:faizanzahid150@gmail.com" className="text-primary hover:underline"> faizanzahid150@gmail.com</a>
+            </p>
+            {/* <p className="text-gray-500 text-sm">{error}</p> */}
+            {/* <p className="text-gray-500 text-sm mt-2">
               Make sure the backend is running and MongoDB is connected,{' '}
               then seed jobs via <code className="text-primary">POST /api/jobs/seed</code>.
-            </p>
+            </p> */}
           </div>
         )}
 
