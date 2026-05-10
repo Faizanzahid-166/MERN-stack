@@ -1,0 +1,1 @@
+export const DB_NAME = "02_blitz_site";

@@ -1,46 +1,18 @@
-// src/middleware/authMiddleware.js
-import User from "../models/UserModel.js";
-import { verifyToken } from "../lib/auth.js";
-import { parseCookies, COOKIE_NAME } from "../lib/cookie.js";
+import { getUserFromRequest } from "../lib/getUserFromRequest.js";
+import { errorResponse } from "../lib/response.js";
 
 export const protectRoute = async (req, res, next) => {
   try {
-    const cookies = parseCookies(req.headers.cookie || "");
-    const token = cookies[COOKIE_NAME];
-
-    if (!token) {
-      return res.status(401).json({
-        status: "error",
-        message: "Authentication required",
-      });
-    }
-
-    const decoded = verifyToken(token);
-    if (!decoded?.id) {
-      return res.status(401).json({
-        status: "error",
-        message: "Invalid or expired token",
-      });
-    }
-
-    const user = await User.findById(decoded.id)
-      .select("-password")
-      .lean();
+    const user = await getUserFromRequest(req);
 
     if (!user) {
-      return res.status(401).json({
-        status: "error",
-        message: "User no longer exists",
-      });
+      return errorResponse(res, "Not authorized, please login", 401);
     }
 
-    req.user = user; // full user object
+    // The user object is already attached to req.user by getUserFromRequest
     next();
   } catch (err) {
     console.error("Auth middleware error:", err.message);
-    return res.status(401).json({
-      status: "error",
-      message: "Authentication failed",
-    });
+    return errorResponse(res, "Authentication failed", 401);
   }
 };
