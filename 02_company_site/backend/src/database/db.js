@@ -12,8 +12,9 @@ export const connectDB = async () => {
     }
 
     const connectionInstance = await mongoose.connect(
-      `${mongoUrl}/${DB_NAME}`
+      `${mongoUrl}/${DB_NAME,"db-name"}`
     );
+    console.log(DB_NAME); // ✅ log the connection instance
     console.log(`✅ MongoDB connected !! DB HOST: ${connectionInstance.connection.host}`);
 
     // Call root admin creator

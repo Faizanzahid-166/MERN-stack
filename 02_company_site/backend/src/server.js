@@ -18,6 +18,14 @@ app.use(express.urlencoded({ extended: true }));
 import contactRoutes from './routes/contactRoutes.js';
 // import jobRoutes from './routes/jobRoutes.js';
 
+app.get("/test-db", async (req, res) => {
+  const Test = mongoose.model("Test", new mongoose.Schema({ name: String }));
+
+  await Test.create({ name: "Hello MongoDB" });
+
+  res.send("DB created + data inserted");
+});
+
 // Use routes 
 app.use('/api/contacts', contactRoutes);
 // app.use('/api/jobs', jobRoutes);

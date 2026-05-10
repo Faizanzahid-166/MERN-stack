@@ -32,4 +32,4 @@ const contactSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Contact', contactSchema);
+export default mongoose.model('Contact', contactSchema);
