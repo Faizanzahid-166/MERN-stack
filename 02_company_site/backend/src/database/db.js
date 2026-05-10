@@ -12,7 +12,7 @@ export const connectDB = async () => {
     }
 
     const connectionInstance = await mongoose.connect(
-      `${mongoUrl}/${DB_NAME,"db-name"}`
+      `${mongoUrl}/${DB_NAME}`
     );
     console.log(DB_NAME); // ✅ log the connection instance
     console.log(`✅ MongoDB connected !! DB HOST: ${connectionInstance.connection.host}`);
