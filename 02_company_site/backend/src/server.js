@@ -1,8 +1,8 @@
-import './src/config/dotenv.js';
+import './config/dotenv.js';
 import express from "express";
 import cors from'cors';
-import {connectDB} from './src/database/db.js';
-import errorHandler from './src/middleware/errorHandler.js';
+import {connectDB} from './database/db.js';
+import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
-import contactRoutes from './src/routes/contactRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
 // import jobRoutes from './routes/jobRoutes.js';
 
 // Use routes 
