@@ -1,13 +1,8 @@
-import './config/dotenv.js';
+import './src/config/dotenv.js';
 import express from "express";
 import cors from'cors';
-import {connectDB} from './database/db.js';
-import errorHandler from './middleware/errorHandler.js';
-
-
-
-// Connect to MongoDB
-connectDB();
+import {connectDB} from './src/database/db.js';
+import errorHandler from './src/middleware/errorHandler.js';
 
 const app = express();
 
@@ -20,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
-import contactRoutes from './routes/contactRoutes.js';
+import contactRoutes from './src/routes/contactRoutes.js';
 // import jobRoutes from './routes/jobRoutes.js';
 
 // Use routes 
@@ -41,7 +36,9 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // ─── Start Server ─────────────────────────────────────────────────────────────
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`⚡ Blitz Tech Hub API running on port ${PORT}`);
+connectDB().then(() => {
+  const PORT = process.env.PORT || 4000;
+   app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+  });
 });
