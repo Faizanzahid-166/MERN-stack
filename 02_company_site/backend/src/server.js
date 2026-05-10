@@ -3,7 +3,7 @@ import express from "express";
 import cors from'cors';
 import {connectDB} from './database/db.js';
 import errorHandler from './middleware/errorHandler.js';
-
+import mongoose from 'mongoose';
 const app = express();
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
