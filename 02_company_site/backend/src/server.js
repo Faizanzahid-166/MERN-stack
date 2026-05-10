@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 import contactRoutes from './routes/contactRoutes.js';
 // import jobRoutes from './routes/jobRoutes.js';
 
-app.get("/test-db", async (req, res) => {
+app.get("/02_blitz_site", async (req, res) => {
   const Test = mongoose.model("Test", new mongoose.Schema({ name: String }));
 
   await Test.create({ name: "Hello MongoDB" });
