@@ -35,11 +35,14 @@ export default function RepositoryTabs() {
 
         if (uniqueNames.length) setSelectedRepository(uniqueNames[0]);
       } catch (err) {
-        let message = "An unexpected error occurred";
+        let message = "An unexpected error occurred.";
         if (err.code === "ERR_NETWORK") {
-          message = "Network Error: Please ensure the backend server is running on port 4000.";
+          message = "Network Error: Backend server is unreachable.";
         } else {
-          message = err.response?.data?.message || err.message || "Failed to load projects";
+          message = err.response?.data?.message || err.message || "Failed to load projects.";
+          if (err.response?.status === 500) {
+            message = `Server Error (500): ${message}`;
+          }
         }
         setError(message);
         console.error("RepositoryProjects Fetch Error:", err.response?.data || err);
