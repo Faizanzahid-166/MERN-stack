@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { createRepositoryLists } from "../../api/repository-projects";
+import ThemeContext from "../../context/themeContext.js";
+import { Link } from "react-router";
 
 const initialState = {
   Repository_Name: "",
@@ -9,6 +11,7 @@ const initialState = {
 };
 
 function InsertRepository() {
+  const { darkMode } = useContext(ThemeContext);
   const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
 
@@ -33,8 +36,20 @@ function InsertRepository() {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-center">
+    <div className={`max-w-xl mx-auto mt-10 p-8 rounded-2xl shadow-lg transition-colors duration-300 ${darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"}`}>
+     <Link
+          to="/auth/dashboard"
+          className="px-6 py-2 m-1 bg-green-500 text-white rounded-md hover:bg-green-600"
+        >
+          Dashboard
+        </Link>
+         <Link
+          to="/projects/insertProjects"
+          className="px-6 py-2 m-1 bg-yellow-800 text-white rounded-md hover:bg-yellow-600"
+        >
+          InsertProjects
+        </Link>
+      <h2 className="text-2xl p-2 font-bold mb-6 text-center">
         Add Repository
       </h2>
 
@@ -45,7 +60,9 @@ function InsertRepository() {
           value={form.Repository_Name}
           onChange={handleChange}
           required
-          className="input"
+          className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300 ${
+            darkMode ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400" : "bg-white border-gray-300 text-gray-900"
+          }`}
         />
 
         <input
@@ -53,7 +70,9 @@ function InsertRepository() {
           placeholder="GitHub Repository URL"
           value={form.Repository_URI}
           onChange={handleChange}
-          className="input"
+          className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300 ${
+            darkMode ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400" : "bg-white border-gray-300 text-gray-900"
+          }`}
         />
 
         <input
@@ -61,7 +80,9 @@ function InsertRepository() {
           placeholder="Repository Image URL"
           value={form.Repository_Image}
           onChange={handleChange}
-          className="input"
+          className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300 ${
+            darkMode ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400" : "bg-white border-gray-300 text-gray-900"
+          }`}
         />
 
         <textarea
@@ -70,7 +91,9 @@ function InsertRepository() {
           value={form.Repository_Description}
           onChange={handleChange}
           rows={4}
-          className="input resize-none"
+          className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300 resize-none ${
+            darkMode ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400" : "bg-white border-gray-300 text-gray-900"
+          }`}
         />
 
         <button

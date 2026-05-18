@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signupUser } from "../../redux/authSliceTunk/authTunk";
 import { useNavigate } from "react-router";
+import ThemeContext from "../../context/themeContext.js";
 
 const Signup = () => {
+  const { darkMode } = useContext(ThemeContext);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,28 +26,34 @@ const Signup = () => {
   }, [isAuthenticated, navigate]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white rounded-xl shadow-md">
+    <div className={`flex items-center justify-center min-h-screen transition-colors duration-300 ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
+      <div className={`w-full max-w-md p-8 rounded-xl shadow-md transition-colors duration-300 ${darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"}`}>
         <h1 className="text-2xl font-bold mb-6 text-center">Signup</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             name="name"
             placeholder="Name"
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors duration-300 ${
+              darkMode ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400" : "bg-white border-gray-300 text-gray-900"
+            }`}
           />
           <input
             name="email"
             placeholder="Email"
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors duration-300 ${
+              darkMode ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400" : "bg-white border-gray-300 text-gray-900"
+            }`}
           />
           <input
             name="password"
             type="password"
             placeholder="Password"
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors duration-300 ${
+              darkMode ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400" : "bg-white border-gray-300 text-gray-900"
+            }`}
           />
           <button
             type="submit"

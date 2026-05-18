@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/authSliceTunk/authTunk.js";
 import { useNavigate,Link } from "react-router";
+import ThemeContext from "../../context/themeContext.js";
 
 const Dashboard = () => {
+  const { darkMode } = useContext(ThemeContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -20,8 +22,8 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex flex-col items-center p-5 min-h-screen bg-gray-100">
-      <div className="w-full max-w-lg p-8 bg-white rounded-xl shadow-md text-center">
+    <div className={`flex flex-col items-center p-5 min-h-screen transition-colors duration-300 ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
+      <div className={`w-full max-w-lg p-8 rounded-xl shadow-md text-center transition-colors duration-300 ${darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"}`}>
         <h1 className="text-3xl font-bold mb-4">Welcome, {user?.name}</h1>
         <p className="mb-6">You are now logged in.</p>
         <Link

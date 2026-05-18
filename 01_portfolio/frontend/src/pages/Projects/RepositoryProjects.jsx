@@ -1,7 +1,9 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useContext } from "react";
 import { getRepositoryProjects } from "../../api/repository-projects.js";
+import ThemeContext from "../../context/themeContext.js";
 
 export default function RepositoryTabs() {
+  const { darkMode } = useContext(ThemeContext);
   const [projects, setProjects] = useState([]);
   const [uniqueRepositories, setUniqueRepositories] = useState([]);
   const [selectedRepository, setSelectedRepository] = useState(null);
@@ -33,8 +35,14 @@ export default function RepositoryTabs() {
 
         if (uniqueNames.length) setSelectedRepository(uniqueNames[0]);
       } catch (err) {
-        setError("Failed to load projects");
-        console.error(err);
+        let message = "An unexpected error occurred";
+        if (err.code === "ERR_NETWORK") {
+          message = "Network Error: Please ensure the backend server is running on port 4000.";
+        } else {
+          message = err.response?.data?.message || err.message || "Failed to load projects";
+        }
+        setError(message);
+        console.error("RepositoryProjects Fetch Error:", err.response?.data || err);
       } finally {
         setLoading(false);
       }
@@ -73,7 +81,7 @@ export default function RepositoryTabs() {
     );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12 flex flex-col lg:flex-row gap-6">
+    <div className={`max-w-7xl mx-auto px-4 py-12 flex flex-col lg:flex-row gap-6 transition-colors duration-300 ${darkMode ? "text-white" : "text-gray-900"}`}>
       {/* Left Tabs */}
       <div className="lg:w-1/4 mb-6 lg:mb-0">
         <h2 className="text-2xl font-bold mb-4">Repositories</h2>
@@ -88,7 +96,7 @@ export default function RepositoryTabs() {
               className={`px-4 py-2 text-left rounded-lg font-semibold transition ${
                 selectedRepository === name
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                  : darkMode ? "bg-gray-700 text-gray-200 hover:bg-gray-600" : "bg-gray-200 text-gray-800 hover:bg-gray-300"
               }`}
             >
               {name}
@@ -109,7 +117,7 @@ export default function RepositoryTabs() {
             {paginatedProjects.map((project) => (
               <div
                 key={project.id}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 flex flex-col"
+                className={`rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 flex flex-col ${darkMode ? "bg-gray-800" : "bg-white"}`}
               >
                 {project.image && (
                   <img
@@ -120,10 +128,10 @@ export default function RepositoryTabs() {
                   />
                 )}
                 <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-xl font-semibold mb-2 text-gray-800">
+                  <h3 className={`text-xl font-semibold mb-2 ${darkMode ? "text-white" : "text-gray-800"}`}>
                     {project.repoProjectName}
                   </h3>
-                  <p className="text-gray-500 text-sm flex-1">
+                  <p className={`text-sm flex-1 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
                     {project.repositoryName}
                   </p>
                   {project.deployUrl && (
