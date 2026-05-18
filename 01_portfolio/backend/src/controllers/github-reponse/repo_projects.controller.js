@@ -46,7 +46,7 @@ export async function getRepositoryLists(req, res) {
 
     // Start Supabase query
     let query = supabase
-      .from("02_repository_description")
+      .from("01_repository_description")
       .select("*", { count: "exact" }) // get total count as well
 
     // Apply optional filters

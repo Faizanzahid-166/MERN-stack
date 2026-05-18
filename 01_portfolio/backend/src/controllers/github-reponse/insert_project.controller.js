@@ -71,7 +71,7 @@ export async function createRepositoryLists(req, res) {
     }
 
     const { data, error } = await supabase
-      .from("02_repository_description")
+      .from("01_repository_description")
       .insert([
         {
           Repository_Name,
