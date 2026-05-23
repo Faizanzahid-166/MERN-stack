@@ -126,7 +126,7 @@ export default function Career() {
           <div className="glass-card p-8 text-center">
             {/* <AlertCircle size={36} className="text-red-400 mx-auto mb-3" /> */}
             <p className="text-gray-400 mb-2">send your CV speculatively at 
-              <a href="mailto:faizanzahid150@gmail.com" className="text-primary hover:underline"> faizanzahid150@gmail.com</a>
+              <a href="mailto:blitztechhub@gmail.com" className="text-primary hover:underline"> blitztechhub@gmail.com</a>
             </p>
             {/* <p className="text-gray-500 text-sm">{error}</p> */}
             {/* <p className="text-gray-500 text-sm mt-2">
