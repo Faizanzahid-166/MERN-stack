@@ -6,7 +6,7 @@ import { sendContactForm } from "../api/contactApi.js";
 
 const contactInfo = [
   { icon: Mail,    label: 'Email',    value: 'blitztechhub@gmail.com',  }, //href: 'mailto:hello@blitztechhub.com'
-  { icon: Phone,   label: 'Phone',    value: '+92 3495526117',       }, //href: 'tel:+923495526117' 
+  { icon: Phone,   label: 'Phone',    value: '+92 331 9887683',       }, //href: 'tel:+923319887683' 
   { icon: MapPin,  label: 'Location', value: 'Islamabad, Pakistan',    href: '#' },
   { icon: Clock,   label: 'Hours',    value: 'Mon–Sat, 9 AM – 7 PM',  href: '#' },
 ];
