@@ -15,9 +15,9 @@ const supabase = createClient(
 
 // ── Sample data ───────────────────────────────────────────────
 const adminUser = {
-  name: 'Admin User',
-  email: 'faizanzahid150@gmail.com',
-  password: 'faizan_7107',
+  name: 'Mr.Mark',
+  email: 'blitztechhub@gmail.com',
+  password: 'faizan7107blitz',
   role: 'admin',
 };
 
