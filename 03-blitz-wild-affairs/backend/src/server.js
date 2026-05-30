@@ -19,6 +19,9 @@ app.get("/api/health", (req, res) => {
     env: process.env.NODE_ENV || 'development'
   });
 })
+app.get("/", (req, res) => {
+  res.send("🚀 BlogForge API is running");
+});
 
 // ── Routes ────────────────────────────────────────────────────
 app.use('/api/auth',     rateLimit(20, 60_000), authRoutes);   // rate-limit login/register
