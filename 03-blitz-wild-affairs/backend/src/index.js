@@ -7,12 +7,11 @@ import morgan  from 'morgan';
 const app  = express();
 export const PORT = process.env.PORT || 3000; // Match your reported logs
 
+
 // ── Security & Parsing ────────────────────────────────────────
-const allowedOrigins = [
-  'http://localhost:5173', // local dev
-  'http://127.0.0.1:5173', // local dev alternative
-  'http://localhost:3000',
-];
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : [];
 
 app.use(cors({
     origin: function (origin, callback) {
