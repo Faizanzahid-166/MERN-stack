@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply font-body bg-white text-gray-900 antialiased;
+  }
+
+  .dark body {
+    @apply bg-gray-950 text-gray-100;
+  }
+
+  h1, h2, h3, h4, h5, h6 { @apply font-display; }
+}
+
+@layer components {
+  /* ── Skeleton loader shimmer ── */
+  .skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  .dark .skeleton {
+    background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+    background-size: 200% 100%;
+  }
+
+  /* ── Glass card ── */
+  .glass {
+    @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl
+      border border-white/40 dark:border-gray-700/40;
+  }
+
+  /* ── Brand primary button ── */
+  .btn-brand {
+    @apply inline-flex items-center justify-center gap-2
+      bg-brand-600 hover:bg-brand-700 active:bg-brand-800
+      text-white font-semibold px-5 py-2.5 rounded-xl
+      transition-all duration-200
+      shadow-md hover:shadow-brand-500/25
+      active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* ── Ghost / outline button ── */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+      border border-gray-300 dark:border-gray-700
+      hover:bg-gray-100 dark:hover:bg-gray-800
+      text-gray-800 dark:text-gray-200 font-semibold
+      px-5 py-2.5 rounded-xl
+      transition-all duration-200
+      active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+}
+
+@layer utilities {
+  /* Reading progress bar is applied inline via style attribute */
+}
+
+/* ── Keyframes ── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar         { width: 5px; height: 5px; }
+::-webkit-scrollbar-track   { background: transparent; }
+::-webkit-scrollbar-thumb   { background: #c44df0; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #a82dd4; }
+
+/* ── Font families (loaded via Google Fonts in index.html) ── */
+.font-display { font-family: "Playfair Display", Georgia, serif; }
+.font-body    { font-family: "DM Sans", system-ui, sans-serif; }
+.font-mono    { font-family: "JetBrains Mono", monospace; }
