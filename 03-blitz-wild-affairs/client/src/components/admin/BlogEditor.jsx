@@ -18,6 +18,7 @@ export default function BlogEditor({ blogId }) {
   const [content, setContent]           = useState('');
   const [preview, setPreview]           = useState(false);
   const [uploadedMedia, setUploadedMedia] = useState([]);
+  const [youtubeUrl, setYoutubeUrl]     = useState('');
   const [coverPreview, setCoverPreview] = useState(null);
   const [saving, setSaving]             = useState(false);
   
@@ -209,6 +210,64 @@ export default function BlogEditor({ blogId }) {
             onChange={handleMediaUpload}
             className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-brand-100 file:text-brand-600 file:font-medium hover:file:bg-brand-200"
           />
+          {/* YouTube embed input: inserts iframe HTML into content (preview supports raw HTML) */}
+          <div className="mt-3 flex gap-2">
+            <input
+              value={youtubeUrl}
+              onChange={(e) => setYoutubeUrl(e.target.value)}
+              placeholder="YouTube URL (https://youtu.be/xxx or https://www.youtube.com/watch?v=xxx)"
+              className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm"
+            />
+            <button
+              type="button"
+              onClick={async () => {
+                if (!youtubeUrl.trim()) return toast.error('Enter a YouTube URL');
+                const extractId = (url) => {
+                  try {
+                    const u = new URL(url.trim());
+                    const host = u.hostname.replace(/^www\./, '');
+                    // youtu.be/ID
+                    if (host === 'youtu.be') return u.pathname.slice(1).split(/[?#]/)[0];
+                    // youtube.com domains
+                    if (host.endsWith('youtube.com')) {
+                      // standard watch?v=ID
+                      if (u.pathname.startsWith('/watch')) return u.searchParams.get('v');
+                      // shorts: /shorts/ID
+                      if (u.pathname.startsWith('/shorts/')) return u.pathname.split('/shorts/')[1].split(/[?#]/)[0];
+                      // embed URLs
+                      if (u.pathname.startsWith('/embed/')) return u.pathname.split('/embed/')[1].split(/[?#]/)[0];
+                    }
+                  } catch (e) {
+                    // fall through to regex fallback
+                  }
+                  // fallback: try to find 11-char video id with regex
+                  const m = url.match(/(?:v=|\/|be\/|embed\/|shorts\/)([0-9A-Za-z_-]{11})/);
+                  return m ? m[1] : null;
+                };
+                const id = extractId(youtubeUrl);
+                if (!id) return toast.error('Invalid YouTube URL');
+                const iframe = `
+                  <div class="video-embed">
+                    <iframe
+                      src="https://www.youtube.com/embed/${id}"
+                      title="YouTube video"
+                      frameborder="0"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+
+                  <hr class="my-10 border-gray-300 dark:border-gray-700" />
+
+                  `;
+                setUploadedMedia((prev) => [...prev, { media_type: 'video', media_url: `https://www.youtube.com/watch?v=${id}`, id: Date.now() }]);
+                setYoutubeUrl('');
+                toast.success('YouTube embed inserted into content');
+              }}
+              className="btn-ghost"
+            >
+              Insert
+            </button>
+          </div>
           {uploadedMedia.length > 0 && (
             <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
               {uploadedMedia.map((m) => (
@@ -240,16 +299,18 @@ export default function BlogEditor({ blogId }) {
 function PreviewContent({ content }) {
   const [ReactMarkdown, setMD]  = useState(null);
   const [remarkGfm, setGfm]     = useState(null);
+  const [rehypeRaw, setRehypeRaw] = useState(null);
 
   useEffect(() => {
-    Promise.all([import('react-markdown'), import('remark-gfm')]).then(([md, gfm]) => {
+    Promise.all([import('react-markdown'), import('remark-gfm'), import('rehype-raw')]).then(([md, gfm, rehype]) => {
       setMD(() => md.default);
       setGfm(() => gfm.default);
+      setRehypeRaw(() => rehype.default);
     });
   }, []);
 
   if (!ReactMarkdown) return <p className="text-gray-400 text-sm">Loading preview...</p>;
-  return <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>;
+  return <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={rehypeRaw ? [rehypeRaw] : []}>{content}</ReactMarkdown>;
 }
 
 function Toggle({ label, name, register }) {

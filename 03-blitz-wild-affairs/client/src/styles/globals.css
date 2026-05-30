@@ -17,3 +17,34 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* YouTube embed styling: smaller, padded, and centered */
+/* globals.css */
+
+.video-embed {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.video-embed iframe {
+  width: 100%;
+  min-height: 420px;
+  display: block;
+}
+
+/* Make embeds slightly narrower on small screens */
+@media (max-width: 640px) {
+  .video-embed { max-width: 100%; padding: 0.25rem; }
+  .video-embed iframe { aspect-ratio: 16 / 9; }
+}
+
+/* Add comfortable padding around prose content */
+.prose {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* If you want vertical/shorts style, add `.video-embed--tall` to adjust aspect ratio */
+.video-embed--tall iframe { aspect-ratio: 9 / 16; height: 520px; }

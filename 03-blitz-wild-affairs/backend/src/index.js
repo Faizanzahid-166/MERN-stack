@@ -15,8 +15,8 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 
 app.use(cors({
    origin: function (origin, callback) {
-  console.log("Request Origin:", origin);
-  console.log("Allowed Origins:", allowedOrigins);
+  // console.log("Request Origin:", origin);
+  // console.log("Allowed Origins:", allowedOrigins);
 
   if (!origin || allowedOrigins.includes(origin)) {
     callback(null, true);

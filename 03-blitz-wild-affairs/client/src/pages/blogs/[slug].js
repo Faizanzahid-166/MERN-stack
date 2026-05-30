@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 import toast from 'react-hot-toast';
 import { blogAPI } from '@/api/APIs';
 import { useAuth } from '@/context/AuthContext';
@@ -141,12 +142,30 @@ export default function BlogDetail() {
           </div>
 
           {/* Content */}
-          <div className="prose prose-lg dark:prose-invert max-w-none
-            prose-headings:font-display prose-headings:font-bold
-            prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline
-            prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md
-            prose-pre:rounded-xl prose-img:rounded-xl prose-blockquote:border-brand-500">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{blog.content}</ReactMarkdown>
+          <div
+            className="
+              prose prose-lg dark:prose-invert max-w-none
+              prose-headings:font-display prose-headings:font-bold
+              prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline
+              prose-code:bg-gray-100 dark:prose-code:bg-gray-800
+              prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md
+              prose-pre:rounded-xl
+              prose-img:rounded-xl
+              prose-blockquote:border-brand-500
+
+              [&_.video-embed]:my-10
+              [&_.video-embed]:overflow-hidden
+              [&_.video-embed]:rounded-xl
+              [&_.video-embed]:border
+              [&_.video-embed]:border-gray-300
+              dark:[&_.video-embed]:border-gray-700
+
+              [&_.video-embed_iframe]:w-full
+              [&_.video-embed_iframe]:min-h-[420px]
+              [&_.video-embed_iframe]:block
+            "
+          >
+            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{blog.content}</ReactMarkdown>
           </div>
 
           {/* Tags */}
