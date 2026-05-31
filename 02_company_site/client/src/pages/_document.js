@@ -17,7 +17,7 @@ export default function Document() {
         />
 
         {/* Favicon — replace with your actual icon */}
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/blitz-tech-logo.png" />
 
         {/* Theme colour for mobile browser chrome */}
         <meta name="theme-color" content="#0A0A0F" />
