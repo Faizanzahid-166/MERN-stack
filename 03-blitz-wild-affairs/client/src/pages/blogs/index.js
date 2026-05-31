@@ -9,7 +9,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import BlogCard, { BlogCardSkeleton } from '@/components/blog/BlogCard';
 import Pagination from '@/components/ui/Pagination';
 
-const CATEGORIES = ['All', 'Technology', 'Design', 'Business', 'Science', 'Culture', 'Health'];
+const CATEGORIES = ['All', 'Politics', 'War', 'Technology', 'Design', 'Business', 'Science', 'Culture', 'Health'];
 
 export default function Blogs() {
   const router = useRouter();
