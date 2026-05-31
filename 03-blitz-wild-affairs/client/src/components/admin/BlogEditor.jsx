@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { blogAPI } from '@/api/APIs';
 
-const CATEGORIES = ['Technology', 'Design', 'Business', 'Science', 'Culture', 'Health', 'Other'];
+const CATEGORIES = ['Politics','War','Technology', 'Design', 'Business', 'Science', 'Culture', 'Health', 'Other'];
 
 export default function BlogEditor({ blogId }) {
   const router    = useRouter();
