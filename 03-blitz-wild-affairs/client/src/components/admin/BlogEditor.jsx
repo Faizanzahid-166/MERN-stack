@@ -188,7 +188,7 @@ export default function BlogEditor({ blogId }) {
         <div>
           <label className="block text-sm font-medium mb-1.5 text-gray-600 dark:text-gray-400">Content (Markdown)</label>
           {preview ? (
-            <div className="prose prose-lg dark:prose-invert max-w-none p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 min-h-[400px]">
+            <div className="prose prose-lg dark:prose-invert max-w-none p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 min-h-[400px] whitespace-pre-wrap">
               <PreviewContent content={content} />
             </div>
           ) : (
@@ -310,7 +310,11 @@ function PreviewContent({ content }) {
   }, []);
 
   if (!ReactMarkdown) return <p className="text-gray-400 text-sm">Loading preview...</p>;
-  return <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={rehypeRaw ? [rehypeRaw] : []}>{content}</ReactMarkdown>;
+  return (
+    <div className="whitespace-pre-wrap">
+      <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={rehypeRaw ? [rehypeRaw] : []}>{content}</ReactMarkdown>
+    </div>
+  );
 }
 
 function Toggle({ label, name, register }) {
