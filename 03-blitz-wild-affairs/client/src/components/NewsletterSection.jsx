@@ -61,7 +61,7 @@ export default function NewsletterSection() {
               />
               <button
                 type="submit"
-                className="bg-white text-brand-600 font-semibold px-7 py-3.5 rounded-xl
+                className="bg-white text-black font-semibold px-7 py-3.5 rounded-xl
                   hover:bg-brand-50 active:scale-95 transition-all duration-150 whitespace-nowrap"
               >
                 Subscribe →
