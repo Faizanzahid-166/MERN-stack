@@ -1,0 +1,6 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://blitztechhub.com/sitemap.xml
+
+# Allow all crawlers. For staging, override this file to disallow indexing.

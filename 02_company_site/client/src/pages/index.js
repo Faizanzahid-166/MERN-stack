@@ -5,6 +5,7 @@
 // ✅ Added Next.js <Head> for per-page SEO meta tags
 
 import Head                                           from 'next/head';
+import SEO                                            from '@/components/SEO';
 import Link                                           from 'next/link';
 import { motion }                                     from 'framer-motion';
 import { ArrowRight, CheckCircle, Zap, Shield, Clock, Users } from 'lucide-react';
@@ -43,13 +44,13 @@ function HeroOrbs() {
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>Blitz Tech Hub — Innovate. Build. Scale.</title>
-        <meta
-          name="description"
-          content="Premium digital agency offering web development, AI automation, digital marketing, SEO, and app development services."
-        />
-      </Head>
+      <SEO
+        title={"Blitz Tech Hub | Software House in Islamabad | Web Development, AI & Digital Marketing"}
+        description={"Blitz Tech Hub is a software house in Islamabad providing web development, mobile app development, AI automation, UI/UX design, SEO, and digital marketing services."}
+        canonical={`${process.env.NEXT_PUBLIC_SITE_URL}/`}
+        image={`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`}
+        services={featuredServices.map((s) => ({ title: s.title || s.name, description: s.description }))}
+      />
 
       <PageWrapper>
         {/* ── Hero ──────────────────────────────────────────────────────────── */}
@@ -88,9 +89,10 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-xl sm:text-2xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed"
             >
-              Your one-stop solution for{' '}
-              <span className="text-white font-medium">digital transformation</span>. We build
-              modern web apps, automate with AI, and grow your brand online.
+              Blitz Tech Hub is a leading <span className="text-white font-medium">software house in Islamabad</span>,
+              serving both local and international clients. We are a full-service web development company
+              specialising in Next.js development, MERN stack solutions, mobile app development, AI automation,
+              UI/UX design, SEO services in Islamabad, and digital marketing that drives growth.
             </motion.p>
 
             {/* CTA buttons */}
@@ -125,6 +127,18 @@ export default function Home() {
 
           {/* Bottom fade */}
           <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#0A0A0F] to-transparent" />
+        </section>
+        {/* ── Useful links (internal linking for SEO) ───────────────────────────────── */}
+        <section className="py-12 max-w-4xl mx-auto px-4 text-center">
+          <h4 className="text-sm text-gray-400 mb-4">Explore</h4>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href="/" className="text-primary hover:underline">Home</Link>
+            <Link href="/about" className="text-primary hover:underline">About</Link>
+            <Link href="/services" className="text-primary hover:underline">Services</Link>
+            <Link href="/portfolio" className="text-primary hover:underline">Portfolio</Link>
+            <Link href="/blog" className="text-primary hover:underline">Blog</Link>
+            <Link href="/contact" className="text-primary hover:underline">Contact</Link>
+          </div>
         </section>
 
         {/* ── Stats bar ──────────────────────────────────────────────────────── */}
