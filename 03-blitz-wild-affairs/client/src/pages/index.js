@@ -10,6 +10,9 @@ import FeaturedCard from '@/components/blog/FeaturedCard';
 import NewsletterSection from '@/components/NewsletterSection';
 
 const CATEGORIES = [
+  { label: 'All',        icon: '📚' },
+  { label: 'Politics',   icon: '🏛️' },
+  { label: 'War',        icon: '⚔️' },
   { label: 'Technology', icon: '💻' },
   { label: 'Design',     icon: '🎨' },
   { label: 'Business',   icon: '📈' },
