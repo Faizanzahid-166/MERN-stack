@@ -39,7 +39,7 @@ export default function About() {
         <title>About Us — Blitz Tech Hub</title>
         <meta
           name="description"
-          content="Learn about Blitz Tech Hub — a passionate team of developers, designers, AI engineers, and marketers helping businesses thrive in the digital age."
+          content="Learn about Blitz Tech Hub Software House in Islamabad— a passionate team of developers, designers, AI engineers, and marketers helping businesses thrive in the digital age."
         />
       </Head>
 
