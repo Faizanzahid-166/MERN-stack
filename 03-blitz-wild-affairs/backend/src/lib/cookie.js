@@ -14,6 +14,6 @@ export const setTokenCookie = (res, token) => {
 
 export const clearTokenCookie = (res) => {
   res.clearCookie('token', {
-    path: '/',
+    ...cookieOptions,
   });
 };
