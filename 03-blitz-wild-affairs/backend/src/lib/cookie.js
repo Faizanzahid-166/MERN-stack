@@ -17,3 +17,12 @@ export const clearTokenCookie = (res) => {
     ...cookieOptions,
   });
 };
+
+// export const clearTokenCookie = (res) => {
+//   res.clearCookie('token', {
+//     httpOnly: true,
+//     secure: true,
+//     sameSite: 'none',
+//     path: '/',
+//   });
+// };
