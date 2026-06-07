@@ -28,8 +28,8 @@ const socials = [
   { icon: Twitter,  href: 'https://x.com/BlitzTechHub',                              label: 'Twitter'   },
   { icon: Linkedin, href: 'https://linkedin.com/company/blitztechhub',               label: 'LinkedIn'  },
   { icon: Github,   href: 'https://github.com/Faizanzahid-166',                      label: 'GitHub'    },
-  { icon: Facebook, href: 'https://www.facebook.com/BltitzProgrammingHub',           label: 'Facebook'  },
-  { icon: Youtube,  href: 'https://www.youtube.com/@ProgrammingHub-7107/playlists',  label: 'YouTube'   },
+  { icon: Facebook, href: 'https://www.facebook.com/BlitzWorldAffairs',           label: 'Facebook'  },
+  { icon: Youtube,  href: 'www.youtube.com/@BlitzAffairs-7107/playlists',  label: 'YouTube'   },
 ];
 
 export default function Footer() {

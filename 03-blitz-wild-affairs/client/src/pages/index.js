@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { blogAPI } from '@/api/APIs';
+import SEO from '@/components/SEO';
 import BlogCard, { BlogCardSkeleton } from '@/components/blog/BlogCard';
 import FeaturedCard from '@/components/blog/FeaturedCard';
 import NewsletterSection from '@/components/NewsletterSection';
@@ -51,6 +52,14 @@ export default function Home() {
 
   return (
     <div className="pt-16">
+      <SEO
+        title={'Blitz World Affairs | Latest Global News & Geopolitical Insights'}
+        description={'Stay informed with expert reporting and analysis on politics, diplomacy, global conflicts, technology, economics, and world affairs.'}
+        canonical={process.env.NEXT_PUBLIC_SITE_URL || ''}
+        keywords={[
+          'world news','international affairs','global politics','geopolitics','foreign policy','international relations','technology news','economic analysis','security news','world conflicts','breaking news','global economy','military affairs','diplomacy','current affairs'
+        ]}
+      />
 
       {/* ── Hero ── */}
       <section className="relative min-h-[92vh] flex items-center overflow-hidden">

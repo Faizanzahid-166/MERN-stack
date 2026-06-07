@@ -300,19 +300,29 @@ function PreviewContent({ content }) {
   const [ReactMarkdown, setMD]  = useState(null);
   const [remarkGfm, setGfm]     = useState(null);
   const [rehypeRaw, setRehypeRaw] = useState(null);
+  const [remarkBreaks, setBreaks] = useState(null);
 
   useEffect(() => {
-    Promise.all([import('react-markdown'), import('remark-gfm'), import('rehype-raw')]).then(([md, gfm, rehype]) => {
+    Promise.all([
+      import('react-markdown'),
+      import('remark-gfm'),
+      import('rehype-raw'),
+      import('remark-breaks'),
+    ]).then(([md, gfm, rehype, breaks]) => {
       setMD(() => md.default);
       setGfm(() => gfm.default);
       setRehypeRaw(() => rehype.default);
+      setBreaks(() => breaks.default);
     });
   }, []);
 
   if (!ReactMarkdown) return <p className="text-gray-400 text-sm">Loading preview...</p>;
+  const remarkPlugins = [remarkGfm];
+  if (remarkBreaks) remarkPlugins.push(remarkBreaks);
+
   return (
     <div className="whitespace-pre-wrap">
-      <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={rehypeRaw ? [rehypeRaw] : []}>{content}</ReactMarkdown>
+      <ReactMarkdown remarkPlugins={remarkPlugins} rehypePlugins={rehypeRaw ? [rehypeRaw] : []}>{content}</ReactMarkdown>
     </div>
   );
 }

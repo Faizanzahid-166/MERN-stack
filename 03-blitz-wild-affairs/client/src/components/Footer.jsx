@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="bg-gray-950 text-gray-400 py-16 mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
-          <span className="font-display font-bold text-2xl text-white">Blitz Wild Affairs</span>
+          <span className="font-display font-bold text-2xl text-white">Blitz World Affairs</span>
           <p className="mt-3 text-sm leading-relaxed max-w-sm">
             A modern blogging platform for creators and thinkers. Share your ideas with the world.
           </p>
@@ -29,7 +29,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
-        <p className="text-xs">© {new Date().getFullYear()} Blitz Wild Affairs. All rights reserved.</p>
+        <p className="text-xs">© {new Date().getFullYear()} Blitz World Affairs. All rights reserved.</p>
         <p className="text-xs">Built with ❤️ using React, Supabase &amp; Express</p>
       </div>
     </footer>

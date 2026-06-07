@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
 import toast from 'react-hot-toast';
 
 import { blogAPI } from '../api/APIs.js';
@@ -126,7 +127,9 @@ export default function BlogDetail() {
             prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline
             prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md
             prose-pre:rounded-xl prose-img:rounded-xl prose-blockquote:border-brand-500">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{blog.content}</ReactMarkdown>
+            <div className="whitespace-pre-wrap">
+              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{blog.content}</ReactMarkdown>
+            </div>
           </div>
 
           {/* Tags */}

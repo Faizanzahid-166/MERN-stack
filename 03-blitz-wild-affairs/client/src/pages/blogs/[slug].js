@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
 import rehypeRaw from 'rehype-raw';
 import toast from 'react-hot-toast';
 import { blogAPI } from '@/api/APIs';
@@ -15,6 +16,7 @@ import { useAuth } from '@/context/AuthContext';
 import { readingTime, timeAgo, formatCount } from '@/utils/helpers';
 
 import ReadingProgressBar from '@/components/blog/ReadingProgressBar';
+import SEO from '@/components/SEO';
 import CommentsSection from '@/components/blog/CommentsSection';
 import RelatedPosts from '@/components/blog/RelatedPosts';
 import ShareButtons from '@/components/blog/ShareButtons';
@@ -75,6 +77,17 @@ export default function BlogDetail() {
 
   return (
     <>
+      <SEO
+        title={blog.title}
+        description={blog.excerpt || blog.summary || blog.title}
+        canonical={`${process.env.NEXT_PUBLIC_SITE_URL || ''}/blogs/${blog.slug}`}
+        author={blog.author?.name}
+        type={blog.featured ? 'newsarticle' : 'article'}
+        datePublished={blog.created_at}
+        dateModified={blog.updated_at || blog.created_at}
+        image={blog.cover_image}
+        tags={blog.tags || []}
+      />
       <ReadingProgressBar />
       <article className="pt-16">
         {blog.cover_image && (
@@ -165,7 +178,9 @@ export default function BlogDetail() {
               [&_.video-embed_iframe]:block
             "
           >
-            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{blog.content}</ReactMarkdown>
+            <div className="whitespace-pre-wrap">
+              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} rehypePlugins={[rehypeRaw]}>{blog.content}</ReactMarkdown>
+            </div>
           </div>
 
           {/* Tags */}

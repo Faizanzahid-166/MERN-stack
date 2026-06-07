@@ -64,7 +64,7 @@ export default function Navbar() {
 
         {/* Logo */}
         <Link href="/" className="font-display font-black text-2xl text-brand-600 hover:opacity-90 transition-opacity flex-shrink-0">
-          Blitz Wild Affairs
+          Blitz World Affairs
         </Link>
 
         {/* Desktop nav */}

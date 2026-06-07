@@ -262,19 +262,28 @@ export default function BlogEditor() {
 function PreviewContent({ content }) {
   const [ReactMarkdown, setMD] = useState(null);
   const [remarkGfm, setGfm] = useState(null);
+  const [remarkBreaks, setBreaks] = useState(null);
 
   useEffect(() => {
     Promise.all([
       import('react-markdown'),
       import('remark-gfm'),
-    ]).then(([md, gfm]) => {
+      import('remark-breaks'),
+    ]).then(([md, gfm, breaks]) => {
       setMD(() => md.default);
       setGfm(() => gfm.default);
+      setBreaks(() => breaks.default);
     });
   }, []);
 
   if (!ReactMarkdown) return <p className="text-gray-400 text-sm">Loading preview...</p>;
-  return <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>;
+  const remarkPlugins = [remarkGfm];
+  if (remarkBreaks) remarkPlugins.push(remarkBreaks);
+  return (
+    <div className="whitespace-pre-wrap">
+      <ReactMarkdown remarkPlugins={remarkPlugins}>{content}</ReactMarkdown>
+    </div>
+  );
 }
 
 function Toggle({ label, name, register }) {

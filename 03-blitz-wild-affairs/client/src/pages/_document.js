@@ -4,7 +4,9 @@ import { Html, Head, Main, NextScript } from 'next/document';
 export default function Document() {
   return (
     <Html lang="en">
-      <Head />
+      <Head>
+        <link rel="icon" href="/BLITZ-AFFAIRS.png" />
+      </Head>
       <body>
         {/*
           Inline script runs before React hydrates, reading localStorage
