@@ -24,7 +24,8 @@ function buildSitemap(items, siteUrl) {
 export async function getServerSideProps({ res }) {
   try {
     const { data } = await blogAPI.getAll({ published: true, limit: 1000 });
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+    const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+    const siteUrl = rawSiteUrl.replace(/\/$/, '');
     const xml = buildSitemap(data.blogs || [], siteUrl);
     res.setHeader('Content-Type', 'application/xml');
     res.write(xml);

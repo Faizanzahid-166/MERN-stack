@@ -23,7 +23,8 @@ function buildNewsSitemap(items, siteUrl) {
 export async function getServerSideProps({ res }) {
   try {
     const { data } = await blogAPI.getAll({ published: true, limit: 500 });
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+    const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+    const siteUrl = rawSiteUrl.replace(/\/$/, '');
     const articles = (data.blogs || []).filter(b => b.featured || b.tags?.includes('news'));
     const xml = buildNewsSitemap(articles, siteUrl);
     res.setHeader('Content-Type', 'application/xml');

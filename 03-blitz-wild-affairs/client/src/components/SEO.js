@@ -5,11 +5,14 @@ function jsonLdScript(obj) {
 }
 
 export function OrganizationLd() {
+  const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+  const siteUrl = rawSiteUrl.replace(/\/$/, '');
+
   const org = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Blitz World Affairs',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com',
+    url: siteUrl,
     sameAs: [
       'https://x.com/BlitzTechHub',
       'https://linkedin.com/company/blitztechhub',
@@ -19,7 +22,7 @@ export function OrganizationLd() {
     ],
     logo: {
       '@type': 'ImageObject',
-      url: `${process.env.NEXT_PUBLIC_SITE_URL || ''}/og/publisher-logo.png`,
+      url: `${siteUrl}/og/publisher-logo.png`,
     },
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(org) }} />;
@@ -40,7 +43,8 @@ export default function SEO({
   articleSection,
   tags = [],
 }) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+  const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+  const siteUrl = rawSiteUrl.replace(/\/$/, '');
   const fullTitle = title ? `${title} | Blitz World Affairs` : 'Blitz World Affairs | Global News, Politics & Geopolitical Analysis';
   const metaDesc = description || 'Blitz World Affairs delivers expert coverage of geopolitics, international affairs, diplomacy, technology, economics, conflicts, and world news.';
   const metaImage = image || `${siteUrl}/og/default.png`;
