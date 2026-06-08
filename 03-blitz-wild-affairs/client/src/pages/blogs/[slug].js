@@ -80,13 +80,18 @@ export default function BlogDetail() {
       <SEO
         title={blog.title}
         description={blog.excerpt || blog.summary || blog.title}
-        canonical={`${process.env.NEXT_PUBLIC_SITE_URL || ''}/blogs/${blog.slug}`}
+        canonical={`${(process.env.NEXT_PUBLIC_SITE_URL || '').replace(/\/$/, '')}/blogs/${blog.slug}`}
         author={blog.author?.name}
-        type={blog.featured ? 'newsarticle' : 'article'}
+        type={'newsarticle'}
         datePublished={blog.created_at}
         dateModified={blog.updated_at || blog.created_at}
         image={blog.cover_image}
         tags={blog.tags || []}
+        breadcrumbs={[
+          { name: 'Home', url: (process.env.NEXT_PUBLIC_SITE_URL || '').replace(/\/$/, '') || '/' },
+          { name: 'Articles', url: `${(process.env.NEXT_PUBLIC_SITE_URL || '').replace(/\/$/, '')}/blogs` },
+          { name: blog.title, url: `${(process.env.NEXT_PUBLIC_SITE_URL || '').replace(/\/$/, '')}/blogs/${blog.slug}` },
+        ]}
       />
       <ReadingProgressBar />
       <article className="pt-16">
