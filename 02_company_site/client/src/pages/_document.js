@@ -8,6 +8,8 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        {/* Favicon — replace with your actual icon */}
+        <link rel="icon" href="/blitz-logo-32.png" />
         {/* Google Fonts — Inter */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -16,8 +18,6 @@ export default function Document() {
           rel="stylesheet"
         />
 
-        {/* Favicon — replace with your actual icon */}
-        <link rel="icon" href="/blitz-logo-32.png" />
 
         {/* Theme colour for mobile browser chrome */}
         <meta name="theme-color" content="#0A0A0F" />
