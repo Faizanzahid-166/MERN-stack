@@ -1,6 +1,6 @@
 import SEO from './SEO';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://blitztechhub.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || '';
 
 export default function SEOArticle({
   title,
