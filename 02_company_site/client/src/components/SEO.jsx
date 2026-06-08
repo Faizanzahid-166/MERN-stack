@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://blitztechhub.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || '';
 
 export default function SEO({
   title,
