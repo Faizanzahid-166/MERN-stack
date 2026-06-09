@@ -9,7 +9,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         {/* Favicon — replace with your actual icon */}
-        <link rel="icon" type="image/png" sizes="32x32" href="/blitz-logo-32.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/blz-logo-32.png" />
         {/* Google Fonts — Inter */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
