@@ -58,9 +58,14 @@ export default function BlogCard({ blog, index = 0 }) {
             <span>{blog.author?.name || 'Author'}</span>
           </div>
           <div className="flex items-center gap-3">
-            <span>{blog.views ?? 0} views</span>
-            <span>{new Date(blog.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-          </div>
+              {(() => {
+                const raw = blog.views ?? blog.view_count ?? blog.views_count ?? blog.stats?.views ?? 0;
+                const num = typeof raw === 'string' && raw !== '' ? Number(raw) : raw;
+                const val = Number.isFinite(num) ? num : 0;
+                return <span>{val.toLocaleString()} views</span>;
+              })()}
+              <span>{new Date(blog.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+            </div>
         </div>
       </div>
     </motion.article>
