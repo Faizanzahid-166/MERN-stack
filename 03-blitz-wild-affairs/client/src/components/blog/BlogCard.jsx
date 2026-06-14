@@ -58,12 +58,7 @@ export default function BlogCard({ blog, index = 0 }) {
             <span>{blog.author?.name || 'Author'}</span>
           </div>
           <div className="flex items-center gap-3">
-              {(() => {
-                const raw = blog.views ?? blog.view_count ?? blog.views_count ?? blog.stats?.views ?? 0;
-                const num = typeof raw === 'string' && raw !== '' ? Number(raw) : raw;
-                const val = Number.isFinite(num) ? num : 0;
-                return <span>{val.toLocaleString()} views</span>;
-              })()}
+              <span>{formatViews(blog)} views</span>
               <span>{new Date(blog.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
             </div>
         </div>
@@ -88,4 +83,25 @@ export function BlogCardSkeleton() {
       </div>
     </div>
   );
+}
+
+// Helper: Safely extract and format views from various possible shapes
+function formatViews(blog) {
+  if (!blog) return '0';
+
+  const candidates = [
+    blog.views,
+    blog.view_count,
+    blog.views_count,
+    blog.stats && blog.stats.views,
+    blog.meta && blog.meta.views,
+  ];
+
+  for (const raw of candidates) {
+    if (raw === undefined || raw === null || raw === '') continue;
+    const n = typeof raw === 'string' ? Number(raw.replace(/[^0-9.-]/g, '')) : raw;
+    if (Number.isFinite(n)) return n.toLocaleString();
+  }
+
+  return '0';
 }
