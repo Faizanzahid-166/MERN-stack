@@ -29,6 +29,8 @@ export const blogAPI = {
   uploadMedia:      (fd)     => Client.post('/api/blogs/media/upload', fd, { headers: { 'Content-Type': 'multipart/form-data' } }),
   like:             (blogId) => Client.post(`/api/blogs/${blogId}/like`),
   bookmark:         (blogId) => Client.post(`/api/blogs/${blogId}/bookmark`),
+  // Record a view for a blog (backend must implement this endpoint)
+  view:             (blogId) => Client.post(`/api/blogs/${blogId}/view`),
   adminGetAll:      ()       => Client.get('/api/blogs/admin/all'),
   getDashboardStats:()       => Client.get('/api/blogs/admin/stats'),
 };

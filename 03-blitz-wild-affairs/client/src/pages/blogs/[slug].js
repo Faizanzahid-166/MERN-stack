@@ -49,6 +49,45 @@ export default function BlogDetail() {
       .finally(() => setLoading(false));
   }, [slug]);
 
+  // Send a view event once per user/session: immediately if logged in,
+  // or after a short delay for anonymous visitors. Uses localStorage
+  // to avoid double-counting per browser session. Includes console.logs
+  // to help debug whether the view call runs.
+  useEffect(() => {
+    if (!blog || !blog.id) return;
+
+    const key = `viewed_blog_${blog.id}`;
+    if (localStorage.getItem(key)) {
+      console.log('View skipped — already recorded in this browser for', blog.id);
+      return;
+    }
+
+    const sendView = async () => {
+      try {
+        console.log('Sending view for blog', blog.id);
+        const { data } = await blogAPI.view(blog.id);
+        console.log('View response:', data);
+        localStorage.setItem(key, '1');
+      } catch (err) {
+        console.error('Error sending view for blog', blog.id, err);
+      }
+    };
+
+    if (user) {
+      // If user is logged in, register view immediately
+      sendView();
+      return;
+    }
+
+    // For anonymous users, wait a short time before counting as a view
+    const VIEW_DELAY_MS = 8000; // change to preferred threshold
+    const timer = setTimeout(() => {
+      sendView();
+    }, VIEW_DELAY_MS);
+
+    return () => clearTimeout(timer);
+  }, [blog, user]);
+
   const handleLike = async () => {
     if (!user) return toast.error('Please log in to like posts');
     const { data } = await blogAPI.like(blog.id);

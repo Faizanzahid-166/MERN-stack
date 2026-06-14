@@ -9,6 +9,7 @@ import {
   updateBlog,
   deleteBlog,
   uploadBlogMedia,
+  recordView,
   toggleLike,
   toggleBookmark,
   getDashboardStats,
@@ -20,6 +21,8 @@ const router = Router();
 // ── Authenticated users ────────────────────────────────────────
 router.post('/:blogId/like', protect, toggleLike);
 router.post('/:blogId/bookmark', protect, toggleBookmark);
+// Public endpoint to record a view for a blog
+router.post('/:blogId/view', recordView);
 
 // ── Admin only ─────────────────────────────────────────────────
 router.get('/admin/all', protect, adminOnly, adminGetBlogs);

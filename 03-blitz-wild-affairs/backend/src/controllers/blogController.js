@@ -83,6 +83,35 @@ export const getBlogBySlug = async (req, res) => {
   }
 };
 
+// ── RECORD VIEW ───────────────────────────────────────────────
+export const recordView = async (req, res) => {
+  try {
+    const { blogId } = req.params;
+
+    // Ensure blog exists and get current views
+    const { data: blog, error: fetchErr } = await supabase
+      .from('02_blogs')
+      .select('id, views')
+      .eq('id', blogId)
+      .single();
+
+    if (fetchErr || !blog) return res.status(404).json({ message: 'Blog not found.' });
+
+    const newViews = (blog.views || 0) + 1;
+
+    const { error: updateErr } = await supabase
+      .from('02_blogs')
+      .update({ views: newViews })
+      .eq('id', blogId);
+
+    if (updateErr) throw updateErr;
+
+    res.json({ success: true, views: newViews });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // ── CREATE BLOG (Admin) ───────────────────────────────────────
 export const createBlog = async (req, res) => {
   try {
