@@ -1,11 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ConversationProvider, useConversationControls, useConversationStatus } from '@elevenlabs/react';
 import { Mic, MicOff, MessageSquareText, Sparkles, Loader2, X } from 'lucide-react';
-
-const defaultApiBase =
-  process.env.NEXT_PUBLIC_NODE_BACKEND_API_URL ||
-  process.env.NEXT_PUBLIC_RENDER_BACKEND_API_URL ||
-  'http://localhost:4000';
+import { getAgentStatus, createConversationSession } from '@/api/voiceAI-agent-api';
 
 function VoiceAssistantPanel() {
   const { startSession, endSession } = useConversationControls();
@@ -34,22 +30,10 @@ function VoiceAssistantPanel() {
     setIsStarting(true);
 
     try {
-      const response = await fetch(`${defaultApiBase}/api/agent/session`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          participantName: 'Website Visitor',
-        }),
-      });
+      const payload = await createConversationSession({ participantName: 'Website Visitor' });
 
-      const payload = await response.json();
-
-      if (!response.ok || !payload?.success) {
-        throw new Error(payload?.error || 'Unable to start the voice assistant.');
-      }
-
-      if (!payload.token) {
-        throw new Error('The backend did not return a valid conversation token.');
+      if (!payload?.success || !payload?.token) {
+        throw new Error(payload?.error || 'The backend did not return a valid conversation token.');
       }
 
       startSession({
@@ -156,8 +140,7 @@ export default function AIVoiceAssistant() {
 
     const loadStatus = async () => {
       try {
-        const response = await fetch(`${defaultApiBase}/api/agent/status`);
-        const payload = await response.json();
+        const payload = await getAgentStatus();
 
         if (!isMounted) return;
 
