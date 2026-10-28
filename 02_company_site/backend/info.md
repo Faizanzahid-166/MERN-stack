@@ -1,0 +1,1 @@
+npm install @supabase/supabase-js google-auth-library googleapis jsonwebtoken bcryptjs

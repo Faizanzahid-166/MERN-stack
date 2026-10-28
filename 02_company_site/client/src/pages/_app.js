@@ -10,6 +10,7 @@ import { AnimatePresence }    from 'framer-motion';
 import { useRouter }          from 'next/router';
 import Navbar                 from '@/components/Navbar';
 import Footer                 from '@/components/Footer';
+import AIVoiceAssistant       from '@/components/AIVoiceAssistant';
 import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }) {
@@ -40,6 +41,7 @@ export default function App({ Component, pageProps }) {
         </main>
 
         <Footer />
+        <AIVoiceAssistant />
       </div>
     </>
   );
