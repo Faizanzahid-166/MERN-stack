@@ -133,14 +133,26 @@ function VoiceAssistantPanel() {
 }
 
 export default function AIVoiceAssistant() {
-  const [agentId, setAgentId] = useState(process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID || null);
+  const configuredAgentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID || null;
+  const [agentId, setAgentId] = useState(configuredAgentId);
 
   useEffect(() => {
+    if (configuredAgentId) {
+      setAgentId(configuredAgentId);
+      return undefined;
+    }
+
     let isMounted = true;
+    const timeoutMs = 2500;
 
     const loadStatus = async () => {
       try {
-        const payload = await getAgentStatus();
+        const payload = await Promise.race([
+          getAgentStatus(),
+          new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('AI agent status request timed out.')), timeoutMs);
+          }),
+        ]);
 
         if (!isMounted) return;
 
@@ -157,7 +169,7 @@ export default function AIVoiceAssistant() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [configuredAgentId]);
 
   if (!agentId) {
     return null;

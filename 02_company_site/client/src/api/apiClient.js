@@ -10,6 +10,7 @@ const apiClient = axios.create({
     process.env.NODE_ENV === 'development'
       ? apiConfig.nodeURL
       : apiConfig.backendURL,
+  timeout: 8000,
   headers: {
     'Content-Type': 'application/json',
   },
