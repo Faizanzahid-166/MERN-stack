@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ConversationProvider, useConversationControls, useConversationStatus } from '@elevenlabs/react';
+import { LogLevel, setLogLevel } from 'livekit-client';
 import { Mic, MicOff, MessageSquareText, Sparkles, Loader2, X } from 'lucide-react';
 import { getAgentStatus, createOrGetAgent, createConversationSession } from '@/api/voiceAI-agent-api';
+
+setLogLevel(LogLevel.silent);
 
 function VoiceAssistantPanel() {
   const { startSession, endSession } = useConversationControls();
