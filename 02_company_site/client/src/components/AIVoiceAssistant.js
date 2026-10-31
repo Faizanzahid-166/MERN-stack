@@ -162,7 +162,7 @@ export default function AIVoiceAssistant() {
     }
 
     let isMounted = true;
-    const timeoutMs = 15000;
+    const timeoutMs = 3000;
     const startedAt = Date.now();
     let progressTimer = null;
 
