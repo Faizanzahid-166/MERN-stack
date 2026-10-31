@@ -13,8 +13,25 @@ const elevenlabs = process.env.ELEVENLABS_API_KEY
   ? new ElevenLabsClient({ apiKey: process.env.ELEVENLABS_API_KEY })
   : null;
 
-let cachedAgent = process.env.ELEVENLABS_AGENT_ID
-  ? { agentId: process.env.ELEVENLABS_AGENT_ID, name: AGENT_NAME }
+const isValidAgentId = (value) => typeof value === 'string' && /^agent_[A-Za-z0-9]+$/.test(value.trim());
+
+const getConfiguredAgentId = () => {
+  const value = process.env.ELEVENLABS_AGENT_ID?.trim();
+
+  if (!value) {
+    return null;
+  }
+
+  if (!isValidAgentId(value)) {
+    console.warn('Ignoring invalid ELEVENLABS_AGENT_ID. Expected a real ElevenLabs agent ID like agent_..., not an API key.');
+    return null;
+  }
+
+  return value;
+};
+
+let cachedAgent = getConfiguredAgentId()
+  ? { agentId: getConfiguredAgentId(), name: AGENT_NAME }
   : null;
 
 let createAgentPromise = null;
@@ -86,8 +103,8 @@ export const assertElevenLabsConfigured = () => {
 
 export const getAgentStatus = () => ({
   apiKeyConfigured: Boolean(process.env.ELEVENLABS_API_KEY),
-  agentIdConfigured: Boolean(process.env.ELEVENLABS_AGENT_ID),
-  agentId: cachedAgent?.agentId || process.env.ELEVENLABS_AGENT_ID || null,
+  agentIdConfigured: Boolean(getConfiguredAgentId()),
+  agentId: cachedAgent?.agentId || getConfiguredAgentId() || null,
   agentName: AGENT_NAME,
 });
 
@@ -126,8 +143,10 @@ async function createAgentOnce() {
 export const getOrCreateAgent = async () => {
   assertElevenLabsConfigured();
 
-  if (process.env.ELEVENLABS_AGENT_ID) {
-    cachedAgent = { agentId: process.env.ELEVENLABS_AGENT_ID, name: AGENT_NAME };
+  const configuredAgentId = getConfiguredAgentId();
+
+  if (configuredAgentId) {
+    cachedAgent = { agentId: configuredAgentId, name: AGENT_NAME };
     return { ...cachedAgent, source: 'configured', cached: true };
   }
 
@@ -163,7 +182,16 @@ export const getOrCreateAgent = async () => {
 export const createConversationToken = async ({ agentId, participantName = 'Blitz visitor' } = {}) => {
   assertElevenLabsConfigured();
 
-  const activeAgentId = agentId || process.env.ELEVENLABS_AGENT_ID || cachedAgent?.agentId;
+  const rawAgentId = agentId || getConfiguredAgentId() || cachedAgent?.agentId;
+
+  if (rawAgentId && !isValidAgentId(rawAgentId)) {
+    throw buildError('The provided ElevenLabs agent ID is invalid. Use a real agent ID like agent_..., not an API key.', {
+      code: 'ELEVENLABS_AGENT_ID_INVALID',
+      statusCode: 400,
+    });
+  }
+
+  const activeAgentId = rawAgentId;
 
   if (!activeAgentId) {
     throw buildError('No ElevenLabs agent ID is configured. Set ELEVENLABS_AGENT_ID or create the agent via the backend.', {
@@ -197,8 +225,10 @@ export const createConversationToken = async ({ agentId, participantName = 'Blit
 
 export const initializeAgent = async () => {
   try {
-    if (process.env.ELEVENLABS_AGENT_ID) {
-      cachedAgent = { agentId: process.env.ELEVENLABS_AGENT_ID, name: AGENT_NAME };
+    const configuredAgentId = getConfiguredAgentId();
+
+    if (configuredAgentId) {
+      cachedAgent = { agentId: configuredAgentId, name: AGENT_NAME };
       return { ...cachedAgent, source: 'configured', cached: true };
     }
 

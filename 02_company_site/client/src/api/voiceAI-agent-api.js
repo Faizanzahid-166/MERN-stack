@@ -20,10 +20,11 @@ export const createOrGetAgent = async () => {
   }
 };
 
-export const createConversationSession = async ({ participantName = 'Website Visitor' } = {}) => {
+export const createConversationSession = async ({ participantName = 'Website Visitor', agentId } = {}) => {
   try {
     const response = await apiClient.post('/api/agent/session', {
       participantName,
+      ...(agentId ? { agentId } : {}),
     });
 
     return response.data;

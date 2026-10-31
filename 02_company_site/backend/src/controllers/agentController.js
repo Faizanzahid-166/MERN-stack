@@ -49,6 +49,17 @@ const parseAgentError = (err) => {
     };
   }
 
+  if (code === 'ELEVENLABS_AGENT_ID_INVALID') {
+    return {
+      status: 400,
+      payload: {
+        success: false,
+        code,
+        error: 'The configured ElevenLabs agent ID is invalid. Use a real agent ID like agent_..., not an API key.',
+      },
+    };
+  }
+
   return {
     status,
     payload: {

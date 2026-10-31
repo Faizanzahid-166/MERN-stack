@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ConversationProvider, useConversationControls, useConversationStatus } from '@elevenlabs/react';
 import { Mic, MicOff, MessageSquareText, Sparkles, Loader2, X } from 'lucide-react';
-import { createConversationSession } from '@/api/voiceAI-agent-api';
+import { getAgentStatus, createOrGetAgent, createConversationSession } from '@/api/voiceAI-agent-api';
 
 function VoiceAssistantPanel() {
   const { startSession, endSession } = useConversationControls();
@@ -30,7 +30,17 @@ function VoiceAssistantPanel() {
     setIsStarting(true);
 
     try {
-      const payload = await createConversationSession({ participantName: 'Website Visitor' });
+      const agentSetup = await createOrGetAgent();
+      const agentIdToUse = agentSetup?.agentId;
+
+      if (!agentIdToUse) {
+        throw new Error(agentSetup?.error || 'The voice agent is not ready yet.');
+      }
+
+      const payload = await createConversationSession({
+        participantName: 'Website Visitor',
+        agentId: agentIdToUse,
+      });
 
       if (!payload?.success || !payload?.token) {
         throw new Error(payload?.error || 'The backend did not return a valid conversation token.');
@@ -132,9 +142,97 @@ function VoiceAssistantPanel() {
   );
 }
 
+const normalizeClientAgentId = (value) => {
+  const trimmed = typeof value === 'string' ? value.trim() : '';
+  return /^agent_[A-Za-z0-9]+$/.test(trimmed) ? trimmed : null;
+};
+
 export default function AIVoiceAssistant() {
-  const configuredAgentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID || null;
-  const [agentId] = useState(configuredAgentId);
+  const configuredAgentId = normalizeClientAgentId(process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID);
+  const [agentId, setAgentId] = useState(configuredAgentId);
+  const [isPreparing, setIsPreparing] = useState(!configuredAgentId);
+  const [prepareProgress, setPrepareProgress] = useState(0);
+
+  useEffect(() => {
+    if (configuredAgentId) {
+      setAgentId(configuredAgentId);
+      setIsPreparing(false);
+      setPrepareProgress(100);
+      return undefined;
+    }
+
+    let isMounted = true;
+    const timeoutMs = 15000;
+    const startedAt = Date.now();
+    let progressTimer = null;
+
+    const updateProgress = () => {
+      if (!isMounted) return;
+      const elapsed = Date.now() - startedAt;
+      setPrepareProgress(Math.min(100, (elapsed / timeoutMs) * 100));
+    };
+
+    setIsPreparing(true);
+    setPrepareProgress(0);
+    progressTimer = setInterval(updateProgress, 120);
+
+    const loadStatus = async () => {
+      try {
+        const payload = await Promise.race([
+          getAgentStatus(),
+          new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('AI agent status request timed out.')), timeoutMs);
+          }),
+        ]);
+
+        if (!isMounted) return;
+
+        if (payload?.agentId) {
+          setAgentId(payload.agentId);
+        }
+      } catch (error) {
+        console.warn('AI agent status unavailable:', error);
+      } finally {
+        if (isMounted) {
+          setPrepareProgress(100);
+          setIsPreparing(false);
+        }
+      }
+    };
+
+    loadStatus();
+
+    return () => {
+      isMounted = false;
+      if (progressTimer) {
+        clearInterval(progressTimer);
+      }
+    };
+  }, [configuredAgentId]);
+
+  if (isPreparing && !agentId) {
+    return (
+      <div className="fixed bottom-5 right-5 z-50">
+        <div className="flex items-center gap-3 rounded-full border border-white/10 bg-[#0B1020]/85 px-4 py-3 shadow-[0_0_30px_rgba(108,99,255,0.35)] backdrop-blur-xl">
+          <div className="relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-primary/30 to-accent/30 text-primary">
+            <Loader2 size={21} className="animate-spin" />
+            <span className="absolute inset-0 rounded-full border border-primary/30" />
+          </div>
+
+          <div className="min-w-[170px]">
+            <div className="text-[10px] font-medium uppercase tracking-[0.22em] text-primary/80">Preparing</div>
+            <div className="text-sm font-semibold text-white">Blitz AI</div>
+            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/5">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-primary via-purple-400 to-accent transition-all duration-200 ease-out"
+                style={{ width: `${prepareProgress}%` }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!agentId) {
     return null;
