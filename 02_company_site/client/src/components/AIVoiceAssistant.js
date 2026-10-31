@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ConversationProvider, useConversationControls, useConversationStatus } from '@elevenlabs/react';
 import { Mic, MicOff, MessageSquareText, Sparkles, Loader2, X } from 'lucide-react';
-import { getAgentStatus, createConversationSession } from '@/api/voiceAI-agent-api';
+import { createConversationSession } from '@/api/voiceAI-agent-api';
 
 function VoiceAssistantPanel() {
   const { startSession, endSession } = useConversationControls();
@@ -134,42 +134,7 @@ function VoiceAssistantPanel() {
 
 export default function AIVoiceAssistant() {
   const configuredAgentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID || null;
-  const [agentId, setAgentId] = useState(configuredAgentId);
-
-  useEffect(() => {
-    if (configuredAgentId) {
-      setAgentId(configuredAgentId);
-      return undefined;
-    }
-
-    let isMounted = true;
-    const timeoutMs = 2500;
-
-    const loadStatus = async () => {
-      try {
-        const payload = await Promise.race([
-          getAgentStatus(),
-          new Promise((_, reject) => {
-            setTimeout(() => reject(new Error('AI agent status request timed out.')), timeoutMs);
-          }),
-        ]);
-
-        if (!isMounted) return;
-
-        if (payload?.agentId) {
-          setAgentId(payload.agentId);
-        }
-      } catch (error) {
-        console.warn('AI agent status unavailable:', error);
-      }
-    };
-
-    loadStatus();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [configuredAgentId]);
+  const [agentId] = useState(configuredAgentId);
 
   if (!agentId) {
     return null;
